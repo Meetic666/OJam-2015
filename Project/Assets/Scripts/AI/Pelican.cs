@@ -7,6 +7,8 @@ public class Pelican : BaseAI
 	public float m_SinWaveDist;
 	public float m_SeperationMul;
 
+	float m_OriginalYpos;
+
 	//Temp variables for quick changes
 	public float m_MovementSpeed;
 	public float m_MinDist2Player;
@@ -18,6 +20,8 @@ public class Pelican : BaseAI
 	{
 		MovementSpeed = m_MovementSpeed;
 		MinDist2Player = m_MinDist2Player;
+
+		m_OriginalYpos = transform.position.y;
 	}
 	
 	// Update is called once per frame
@@ -26,15 +30,17 @@ public class Pelican : BaseAI
 		//Movement
 		Vector3 newPos = transform.position;
 
-		newPos.z = newPos.z + (MinDist2Player - newPos.z) * Time.deltaTime;
-		newPos.x = newPos.x + Mathf.Sin (Time.time * MovementSpeed) * m_SinWaveDist;
+		newPos.z += (MinDist2Player - newPos.z) * Time.deltaTime;
+		newPos.x += Mathf.Sin (Time.time * MovementSpeed) * m_SinWaveDist;
 
 		if(m_Obstacles.Count > 0)
 		{
 			Vector3 seperationDist = CalcSeperation();
-			newPos.y = transform.position.y + ((seperationDist.y * m_SeperationMul) * 
-			                                   ((m_Obstacles [0].transform.position.y - transform.position.y) / 
-			 									(m_Obstacles [0].transform.position.y - transform.position.y)));
+			newPos.y -= (seperationDist.y * m_SeperationMul);
+		}
+		else
+		{
+			newPos.y += (m_OriginalYpos - newPos.y) * Time.deltaTime;
 		}
 
 		transform.position = Vector3.MoveTowards (transform.position, newPos, MovementSpeed);
@@ -49,8 +55,47 @@ public class Pelican : BaseAI
 		{
 			AveragePosition += obstacle.transform.position;
 		}
+
 		AveragePosition /= m_Obstacles.Count;
 
 		return AveragePosition;
+	}
+
+	void Attack(GameObject player)
+	{
+		//Deal damage to player
+
+		Death ();
+	}
+
+	void Death()
+	{
+		//Add effects here for Death
+
+		gameObject.SetActive (false);
+	}
+
+	void OnTriggerEnter(Collider other)
+	{
+		if(other.tag != "Wall")
+		{
+			m_Obstacles.Add(other.gameObject);
+		}
+	}
+
+	void OnTriggerExit(Collider other)
+	{
+		if(other.tag != "Wall")
+		{
+			m_Obstacles.Remove(other.gameObject);
+		}
+	}
+
+	void OnCollisionEnter(Collision other)
+	{
+		if(other.gameObject.tag == "Player")
+		{
+			Attack(other.gameObject);
+		}
 	}
 }

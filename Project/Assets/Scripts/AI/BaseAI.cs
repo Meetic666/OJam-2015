@@ -3,6 +3,12 @@ using System.Collections;
 
 public class BaseAI : MonoBehaviour 
 {
+	public int AtkDamage 
+	{
+		get;
+		set;
+	}
+
 	public int Health
 	{
 		get;
