@@ -1,13 +1,34 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\AI\Boss_UFO.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GameManagement\GameEventManager.cs">
     <Files>
-      <File FileName="Assets\Scripts\AI\Boss_UFO.cs" Line="80" Column="4" />
+      <File FileName="Assets\Scripts\AI\Boss_UFO.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Projectiles\Missile.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\AI\BaseAI.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\AI\Pelican.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\AI\Mini_UFO.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Audio\MusicManager.cs" Line="36" Column="61" />
+      <File FileName="Assets\Scripts\GameManagement\GameState.cs" Line="6" Column="2" />
+      <File FileName="Assets\Scripts\GameManagement\GameEventManager.cs" Line="12" Column="23" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="Assembly-CSharp" expanded="True">
+            <Node name="Scripts" expanded="True">
+              <Node name="AI" expanded="True" />
+              <Node name="Audio" expanded="True" />
+              <Node name="GameManagement" expanded="True">
+                <Node name="GameEventManager.cs" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
