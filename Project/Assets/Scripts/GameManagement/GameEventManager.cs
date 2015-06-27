@@ -23,6 +23,14 @@ public class GameEventManager : MonoBehaviour
 		}
 	}
 
+	public bool GamePaused
+	{
+		get
+		{
+			return m_GamePaused;
+		}
+	}
+
 	public void ReceiveEvent(GameEvent gameEvent, GameObject target)
 	{
 		switch(gameEvent)
@@ -71,5 +79,11 @@ public class GameEventManager : MonoBehaviour
 	void MoveOneState()
 	{
 		m_CurrentState = (GameState)((int) m_CurrentState + 1);
+	}
+
+	[ContextMenu("Pause game")]
+	void PauseGame()
+	{
+		ReceiveEvent(GameEvent.e_GamePaused, null);
 	}
 }
