@@ -11,7 +11,6 @@ public class Pelican : BaseAI
 
 	//Temp variables for quick changes
 	public float m_MovementSpeed;
-	public float m_MinDist2Player;
 
 	List<GameObject> m_Obstacles = new List<GameObject>();
 
@@ -19,7 +18,7 @@ public class Pelican : BaseAI
 	void Start () 
 	{
 		MovementSpeed = m_MovementSpeed;
-		MinDist2Player = m_MinDist2Player;
+		MinDist2Player = 0;
 
 		m_OriginalYpos = transform.position.y;
 	}

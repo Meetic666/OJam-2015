@@ -1,8 +1,8 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\AI\Boss_UFO.cs">
     <Files>
-      <File FileName="Assets\Scripts\AI\Boss_UFO.cs" Line="82" Column="1" />
+      <File FileName="Assets\Scripts\AI\Boss_UFO.cs" Line="80" Column="4" />
       <File FileName="Assets\Scripts\Projectiles\Missile.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\AI\BaseAI.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\AI\Pelican.cs" Line="1" Column="1" />
