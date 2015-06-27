@@ -1,0 +1,45 @@
+Quentin
+* Score
+* Health
+* Cars / Trucks / People exploding
+* Explosions
+* Buildings falling
+* Event manager
+* Menu system
+
+
+Jason
+* Movement
+* Shooting:
+    - Continuous machine gun
+    - Missiles: shells the shit out of everything
+* Shaky cam
+* Random level
+* Random spawnng of enemies
+
+
+Thomas
+* Assets:
+    - Jet
+    - Person
+    - Car
+    - Truck
+    - Building
+    - House ?
+    - Bird
+    - UFO
+
+* AI:
+    - Bird: flies across screen
+    - Mini UFO: hovering at speed of player until dead
+    - Boss:
+        * Shooting cycle
+        * Picking up stuff cycle
+        * Projecting stuff cycle -> core is vulnerable
+        * Moves towards player to represent progress
+
+
+Brain Cloud features (probably Jason :-p)
+* Achievements
+* Leaderboard
+* Sign up
