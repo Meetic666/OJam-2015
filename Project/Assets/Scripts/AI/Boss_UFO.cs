@@ -77,18 +77,18 @@ public class Boss_UFO : BaseAI
 		
 		case BehaviourStates.e_SpecialOne:
 		{
-			RaycastHit hit;
+			/*RaycastHit hit;
 
-			if(Physics.SphereCastAll(transform.position, 2 /* Temp number */, -transform.up, transform.position.y))
+			Physics.SphereCastAll( transform.position, 2 /* Temp number , -transform.up, transform.position.y);
+
+			if(hit.collider.tag == "Movable")
 			{
-				if(hit.collider.tag == "Movable")
-				{
-					//Tell the object to stop moving
-
+				//Tell the object to stop moving
+			
 					m_Debris.Add(hit.collider.gameObject);
 				}
 			}
-
+			*/
 
 			foreach(GameObject debris in m_Debris)
 			{
@@ -104,7 +104,7 @@ public class Boss_UFO : BaseAI
 				else
 				{
 					//Lift objects in m_Debris
-					debris.transform.position += m_LiftSpeed;
+					//debris.transform.position += m_LiftSpeed;
 				}
 			}
 
