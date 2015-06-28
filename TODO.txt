@@ -26,7 +26,7 @@ Thomas
     - Building
     - House ?
     - Bird
-    - UFO
+    - UFO (sadly yes... done)
 
 * AI:
     - Bird: flies across screen
