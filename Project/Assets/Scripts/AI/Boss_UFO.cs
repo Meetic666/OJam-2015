@@ -42,6 +42,8 @@ public class Boss_UFO : BaseAI , BaseHealth<int>
 	public float m_MovementSpeed;
 	float m_Distance2Player;
 
+	public GameObject m_Spawner;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -108,7 +110,8 @@ public class Boss_UFO : BaseAI , BaseHealth<int>
 			{
 				ChangeState();
 
-				//m_GameEventManager.ReceiveEvent(GameEvent.e_EngagedBoss, null, 0);
+				m_GameEventManager.ReceiveEvent(GameEvent.e_EngagedBoss, null, 0);
+				m_Spawner.SetActive(false);
 			}
 
 			break;

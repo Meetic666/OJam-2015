@@ -91,6 +91,13 @@ public class GameEventManager : MonoBehaviour
 	{
 		m_LeaderboardReady = true;
 		m_LeaderboardData = JsonMapper.ToObject(responseData)["data"];
+
+		FindObjectOfType<LeaderboardMenu>().ParseLeaderboard();
+
+		if(m_Reloading)
+		{
+			Application.LoadLevel(Application.loadedLevel);
+		}
 	}
 	
 	public void LeaderboardFailure_Callback(int a, int b, string responseData, object cbObject)
@@ -127,9 +134,12 @@ public class GameEventManager : MonoBehaviour
 
 
 	bool m_IsQuitting = false;
+	bool m_Reloading = false;
 
 	bool m_LeaderboardReady;
 	public JsonData m_LeaderboardData;
+
+	string m_Name = "Input Your Name";
 
 	float m_TimeBeforeReset = 5.0f;
 	float m_Timer;
@@ -430,5 +440,35 @@ public class GameEventManager : MonoBehaviour
 		}
 
 		return achievementUnlocked;
+	}
+
+	void OnGUI()
+	{
+		if(m_CurrentState == GameState.e_End)
+		{
+			Rect submitButtonPosition = Camera.main.pixelRect;
+			submitButtonPosition.width *= 0.2f;
+			submitButtonPosition.height *= 0.1f;
+			submitButtonPosition.x = (Camera.main.pixelRect.width - submitButtonPosition.width) * 0.5f;
+			submitButtonPosition.y = Camera.main.pixelRect.height - submitButtonPosition.height;
+
+			Rect nameTextPosition = Camera.main.pixelRect;
+			nameTextPosition.width *= 0.3f;
+			nameTextPosition.height *= 0.05f;
+			nameTextPosition.x = (Camera.main.pixelRect.width - nameTextPosition.width) * 0.5f;
+			nameTextPosition.y = (Camera.main.pixelRect.height - nameTextPosition.height) * 0.5f;
+
+			m_Name = GUI.TextField(nameTextPosition, m_Name);
+
+			if(m_Name != "")
+			{
+				if(GUI.Button (submitButtonPosition, "Submit Your Score"))
+				{
+					SubmitLeaderboardData(m_Name);
+
+					m_Reloading = true;
+				}
+			}
+		}
 	}
 }

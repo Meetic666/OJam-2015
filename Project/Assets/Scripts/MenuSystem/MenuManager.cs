@@ -10,6 +10,7 @@ public class MenuManager : MonoBehaviour
 	public GameObject m_PauseMenu;
 	public GameObject m_GameMenu;
 	public GameObject m_AchievementMenu;
+	public GameObject m_LeaderboardMenu;
 
 	// Use this for initialization
 	void Start () 
@@ -21,7 +22,7 @@ public class MenuManager : MonoBehaviour
 	{
 		m_PauseMenu.SetActive(m_GameEventManager.GamePaused);
 
-		Cursor.visible = (m_GameEventManager.CurrentState == GameState.e_MainMenu || m_GameEventManager.GamePaused);
+		Cursor.visible = (m_GameEventManager.CurrentState == GameState.e_MainMenu || m_GameEventManager.GamePaused || m_GameEventManager.CurrentState == GameState.e_End);
 	}
 
 	public void DoAction(ActionType action)
@@ -39,6 +40,8 @@ public class MenuManager : MonoBehaviour
 			break;
 
 		case ActionType.e_Leaderboard:
+			m_LeaderboardMenu.SetActive(true);
+			m_MainMenu.SetActive(false);
 			break;
 
 		case ActionType.e_Quit:
@@ -57,6 +60,7 @@ public class MenuManager : MonoBehaviour
 			break;
 
 		case ActionType.e_BackToMenu:
+			m_LeaderboardMenu.SetActive(false);
 			m_AchievementMenu.SetActive(false);
 			m_MainMenu.SetActive(true);
 			break;
