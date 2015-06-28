@@ -65,12 +65,22 @@ public class GameEventManager : MonoBehaviour
 		m_CarsDestroyedGlobal = long.Parse(entries["CarsDestroyed"].ToString());
 		m_MiniUFOsShotGlobal = long.Parse(entries["MiniUFOsShot"].ToString());
 		m_TrucksDestroyedGlobal = long.Parse(entries["TrucksDestroyed"].ToString());
-		m_BossesKilledGlobal = long.Parse(entries["TrucksDestroyed"].ToString());
+		m_BossesKilledGlobal = long.Parse(entries["BossesKilled"].ToString());
+
+		if(m_Reloading)
+		{
+			Application.LoadLevel (Application.loadedLevel);
+		}
 	}
 	
 	private void StatsFailure_Callback(int statusCode, int reasonCode, string statusMessage, object cbObject)
 	{
 		Debug.Log (statusMessage);
+
+		if(m_Reloading)
+		{
+			Application.LoadLevel (Application.loadedLevel);
+		}
 	}
 
 
@@ -322,7 +332,9 @@ public class GameEventManager : MonoBehaviour
 
 	void OnPlayerKilled()
 	{		
-		m_Timer = m_TimeBeforeReset;
+		m_Reloading = true;
+
+		SaveStatisticsToBrainCloud();
 	}
 
 	void OnPlayerHit(int damage)

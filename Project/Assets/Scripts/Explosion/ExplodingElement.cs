@@ -14,7 +14,7 @@ public class ExplodingElement : MonoBehaviour
 	{
 		m_Rigidbody = GetComponent<Rigidbody>();
 
-		m_GameEventManager = GetComponent<GameEventManager>();
+		m_GameEventManager = FindObjectOfType<GameEventManager>();
 	}
 
 	virtual public void Explode(Vector3 positionOfExplosion, float radiusOfExplosion, float forceOfExplosion)

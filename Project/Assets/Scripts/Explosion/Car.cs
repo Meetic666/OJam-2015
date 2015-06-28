@@ -7,7 +7,7 @@ public class Car : ExplodingElement
 
 	public GameObject m_DeathSound;
 
-	virtual public void Explode(Vector3 positionOfExplosion, float radiusOfExplosion, float forceOfExplosion)
+	public override void Explode(Vector3 positionOfExplosion, float radiusOfExplosion, float forceOfExplosion)
 	{
 		base.Explode(positionOfExplosion, radiusOfExplosion, forceOfExplosion);
 

@@ -17,17 +17,17 @@ public class Explosion : MonoBehaviour
 
 		foreach(Collider otherCollider in colliders)
 		{
-            BaseHealth<int> health = otherCollider.gameObject.GetComponent<BaseHealth<int>>();
-            if (health != null)
-            {
-                health.Damage(m_Damage);
-            }
-
-			ExplodingElement explodingElement = otherCollider.GetComponent<ExplodingElement>() ;
+			ExplodingElement explodingElement = otherCollider.gameObject.GetComponent<ExplodingElement>();
 
 			if(explodingElement != null)
 			{
 				explodingElement.Explode(transform.position, m_ExplosionRadius, m_ExplosionForce);
+			}
+
+			BaseHealth<int> health = otherCollider.gameObject.GetComponent<BaseHealth<int>>();
+			if (health != null)
+			{
+				health.Damage(m_Damage);
 			}
 		}
 

@@ -17,7 +17,7 @@ public class Missile : MonoBehaviour
 	void Start()
 	{
 		RaycastHit hit; 
-		Physics.SphereCast (transform.position, 1, transform.forward, out hit, 1 << 10);
+		Physics.SphereCast (transform.position, 10, transform.forward, out hit, 1 << 10);
 
 		if(hit.collider != null && hit.collider.tag != "Wall" && hit.collider.tag != "Missle" && hit.collider.tag != "Player")
 		{
@@ -37,12 +37,6 @@ public class Missile : MonoBehaviour
 			targetDirection.Normalize();
 
 			float distanceToTarget = targetDirection.magnitude;
-
-			if(Target != null)
-			{
-				//transform.forward = Vector3.Slerp (transform.forward, targetDirection, m_RotationSpeed * Time.deltaTime);
-			}
-
 		}
 	}
 
