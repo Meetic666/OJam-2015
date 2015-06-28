@@ -8,7 +8,7 @@ public class SpawnBuildings : MonoBehaviour {
     float m_LastBuildingPosRight = 0f;
     float m_LastBuildingPosLeft = 0f;
     float m_Timer = TIMER;
-    const float TIMER = 0.75f;
+    const float TIMER = 0.35f;
 
     List<GameObject> m_Roads;
     List<GameObject> m_RoadPrefabs;

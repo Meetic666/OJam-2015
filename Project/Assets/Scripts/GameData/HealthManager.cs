@@ -74,6 +74,9 @@ public class HealthManager : MonoBehaviour
 			Instantiate(m_DeathParticlesPrefab, transform.position, Quaternion.identity);
 		}
 
-		// TODO: Destroy player
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        FallApart.FallApartHelper(player, m_DeathParticlesPrefab, player.transform.position, 5f, 0.2f);
+        Camera.main.GetComponent<CameraController>().OnPlayerDeath(); ;
+
 	}
 }

@@ -28,6 +28,11 @@ public class CameraController : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
+        if (m_PlayerTrans == null)
+        {
+            return;
+        }
+
         Vector3 finalPos = transform.position;
         finalPos.z = Mathf.Lerp(transform.position.z, m_PlayerTrans.position.z + m_ChaseDist, LEPR_SPEED_PRE_DELTA * Time.deltaTime);
 
@@ -60,5 +65,10 @@ public class CameraController : MonoBehaviour {
     public void Shake(float amount)
     {
         m_ShakeAmount = amount;
+    }
+
+    public void OnPlayerDeath()
+    {
+        m_PlayerTrans = null;
     }
 }
