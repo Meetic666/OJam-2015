@@ -12,7 +12,8 @@ public enum GameEvent
 	e_CivilianKilled,
 	e_PlayerHit,
 	e_PlayerKilled,
-	e_EngagedBoss
+	e_EngagedBoss,
+	e_GameExited
 }
 
 public class GameEventManager : MonoBehaviour 
@@ -47,6 +48,11 @@ public class GameEventManager : MonoBehaviour
 		m_MiniUFOsShot = 0;
 		m_TrucksDestroyed = 0;
 		m_BossesKilled = 0;
+
+		if(m_IsQuitting)
+		{
+			Application.Quit ();
+		}
 	}
 	
 	private void StatsSuccess_Callback(string responseData, object cbObject)
@@ -65,6 +71,36 @@ public class GameEventManager : MonoBehaviour
 	private void StatsFailure_Callback(int statusCode, int reasonCode, string statusMessage, object cbObject)
 	{
 		Debug.Log (statusMessage);
+	}
+
+
+
+	public void GetLeaderboard(string aLeaderboardID)
+	{
+		m_LeaderboardReady = false;
+		BrainCloudWrapper.GetBC().SocialLeaderboardService.GetGlobalLeaderboard(aLeaderboardID, BrainCloud.BrainCloudSocialLeaderboard.FetchType.HIGHEST_RANKED, 100, LeaderboardSuccess_Callback, LeaderboardFailure_Callback, null);
+	}
+	
+	public void GetLeaderboardPage(string aLeaderboardID, int aIndex, int aSecondIndex)
+	{
+		m_LeaderboardReady = false;
+		BrainCloudWrapper.GetBC().SocialLeaderboardService.GetGlobalLeaderboardPage(aLeaderboardID, BrainCloud.BrainCloudSocialLeaderboard.SortOrder.HIGH_TO_LOW, aIndex, aSecondIndex, true, LeaderboardSuccess_Callback, LeaderboardFailure_Callback, null);
+	}
+
+	public void LeaderboardSuccess_Callback(string responseData, object cbObject)
+	{
+		m_LeaderboardReady = true;
+		m_LeaderboardData = JsonMapper.ToObject(responseData)["data"];
+	}
+	
+	public void LeaderboardFailure_Callback(int a, int b, string responseData, object cbObject)
+	{
+		Debug.LogError(responseData);
+	}
+	
+	public void SubmitLeaderboardData(int aKills, int aBombHits, int aDeaths)
+	{
+		BrainCloudWrapper.GetBC().SocialLeaderboardService.PostScoreToLeaderboard("Global Leaderboard", m_PlayerScore.Score, BrainCloudWrapper.GetBC().GetSessionId());
 	}
 	////////////////////////////////////////////
 
@@ -89,6 +125,10 @@ public class GameEventManager : MonoBehaviour
 	long m_BossesKilledAchievement = 5;
 
 
+	bool m_IsQuitting = false;
+
+	bool m_LeaderboardReady;
+	public JsonData m_LeaderboardData;
 
 	float m_TimeBeforeReset = 5.0f;
 	float m_Timer;
@@ -120,6 +160,8 @@ public class GameEventManager : MonoBehaviour
 	void Start()
 	{
 		Time.timeScale = 0.0f;
+
+		ReadStatistics();
 	}
 
 	void Update()
@@ -165,6 +207,11 @@ public class GameEventManager : MonoBehaviour
 
 		case GameEvent.e_EngagedBoss:
 			OnBossEngaged();
+			break;
+
+		case GameEvent.e_GameExited:
+			m_IsQuitting = true;
+			SaveStatisticsToBrainCloud();
 			break;
 		}
 	}

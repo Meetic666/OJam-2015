@@ -20,6 +20,8 @@ public class MenuManager : MonoBehaviour
 	void Update()
 	{
 		m_PauseMenu.SetActive(m_GameEventManager.GamePaused);
+
+		Cursor.visible = (m_GameEventManager.CurrentState == GameState.e_MainMenu || m_GameEventManager.GamePaused);
 	}
 
 	public void DoAction(ActionType action)
@@ -40,7 +42,7 @@ public class MenuManager : MonoBehaviour
 			break;
 
 		case ActionType.e_Quit:
-			Application.Quit();
+			m_GameEventManager.ReceiveEvent(GameEvent.e_GameExited, null, 0);
 			break;
 
 		case ActionType.e_Start:

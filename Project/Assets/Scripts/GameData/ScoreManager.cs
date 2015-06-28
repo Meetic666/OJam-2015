@@ -16,6 +16,19 @@ public class ScoreManager : MonoBehaviour
 	public AudioClip m_CoinSound;
 	AudioSource m_Source;
 
+	public uint Score
+	{
+		get
+		{
+			return m_Score;
+		}
+
+		set
+		{
+			m_Score = value;
+		}
+	}
+
 	void Start()
 	{
 		m_Source = gameObject.AddComponent<AudioSource>();
