@@ -72,9 +72,11 @@ public class PlayerMovement : MonoBehaviour {
 	}
 
 
-    void OnCollision(Collision collision)
+    void OnCollisionEnter(Collision collision)
     {
-        //Asplode
+        //Just here for testing, may be changed to the player asploding
+        CameraController cam = Camera.main.GetComponent<CameraController>();
+        cam.Shake(1f);
     }
 }
 

@@ -9,6 +9,8 @@ public class SideCollidersController : MonoBehaviour
     void Start()
     {
         m_PlayerTrans = (Transform)GameObject.FindWithTag("Player").transform;
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Default"), LayerMask.NameToLayer("Sides"), true);
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Sides"), false);
     }
 
     // Update is called once per frame

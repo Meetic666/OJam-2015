@@ -14,6 +14,8 @@ public class CameraController : MonoBehaviour {
     const float LOOK_FORWARD_AMOUNT = 10f;
     Vector3 lastLookatAt;
 
+    float m_ShakeAmount = 0f;
+
 	// Use this for initialization
 	void Start ()
     {
@@ -38,10 +40,20 @@ public class CameraController : MonoBehaviour {
             finalPos.x = pos.x;
             finalPos.y = pos.y;
         }
+        finalPos += new Vector3(Random.Range(-m_ShakeAmount, m_ShakeAmount), Random.Range(-m_ShakeAmount, m_ShakeAmount), Random.Range(-m_ShakeAmount, m_ShakeAmount));
         transform.position = finalPos;
-        Debug.Log(transform.position);
+
+        if (m_ShakeAmount > 0f)
+        {
+            m_ShakeAmount -= Time.deltaTime;
+        }
 
         lastLookatAt = Vector3.Lerp(lastLookatAt, m_PlayerTrans.position + m_Body.velocity.normalized * LOOK_FORWARD_AMOUNT, Mathf.Min(Time.deltaTime * LOOK_LERP_PRE_DELTA, 1f));
         transform.LookAt(lastLookatAt);
 	}
+
+    public void Shake(float amount)
+    {
+        m_ShakeAmount = amount;
+    }
 }

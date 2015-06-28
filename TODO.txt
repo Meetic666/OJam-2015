@@ -3,18 +3,17 @@ Quentin
 * Health
 * Cars / Trucks / People exploding // Effects done for gore, need actual functionality
 * Explosions // Effects done, need functionality
-* Buildings falling
 * Event manager
 * Menu system
 
 
 Jason
-* Movement
+X Movement
 * Shooting:
     - Continuous machine gun
     - Missiles: shells the shit out of everything // There is a missile prefab in the project, I wanted to see working explosions...
-* Shaky cam
-* Random level
+X Shaky cam
+X Random level
 * Random spawnng of enemies
 
 
