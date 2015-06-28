@@ -67,7 +67,7 @@ public class HealthManager : MonoBehaviour
 
 	void Die()
 	{
-		m_GameEventManager.ReceiveEvent(GameEvent.e_PlayerKilled, null);
+		m_GameEventManager.ReceiveEvent(GameEvent.e_PlayerKilled, null, 0);
 
 		if(m_DeathParticlesPrefab != null)
 		{

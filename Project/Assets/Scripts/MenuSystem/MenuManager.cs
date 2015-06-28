@@ -41,13 +41,13 @@ public class MenuManager : MonoBehaviour
 			break;
 
 		case ActionType.e_Start:
-			m_GameEventManager.ReceiveEvent(GameEvent.e_GameLaunched, null);
+			m_GameEventManager.ReceiveEvent(GameEvent.e_GameLaunched, null, 0);
 			m_GameMenu.SetActive (true);
 			m_MainMenu.SetActive (false);
 			break;
 
 		case ActionType.e_Resume:
-			m_GameEventManager.ReceiveEvent(GameEvent.e_GamePaused, null);
+			m_GameEventManager.ReceiveEvent(GameEvent.e_GamePaused, null, 0);
 			m_PauseMenu.SetActive(false);
 			break;
 		}

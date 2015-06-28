@@ -76,7 +76,7 @@ public class Pelican : BaseAI , BaseHealth<int>
 
 	void Attack(GameObject player)
 	{
-		m_GameEventManager.ReceiveEvent(GameEvent.e_PlayerHit, gameObject);
+		m_GameEventManager.ReceiveEvent(GameEvent.e_PlayerHit, gameObject, AtkDamage);
 
 		Death ();
 	}

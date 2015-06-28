@@ -8,10 +8,14 @@ public class PlayerMovement : MonoBehaviour, BaseHealth<int> {
     const float SPEED = 20f;
     const float CONTROL_ACCELERATION = 2.5f;
 
+	GameEventManager m_GameEventManager;
+
 	// Use this for initialization
 	void Start ()
     {
         m_Body = (Rigidbody)gameObject.GetComponent<Rigidbody>();
+
+		m_GameEventManager = FindObjectOfType<GameEventManager>();
 	}
 	
 	// Update is called once per frame
@@ -73,7 +77,7 @@ public class PlayerMovement : MonoBehaviour, BaseHealth<int> {
 
 	public void Damage(int dmg)
 	{
-
+		m_GameEventManager.ReceiveEvent(GameEvent.e_PlayerHit, null, dmg);
 	}
 
     void OnCollisionEnter(Collision collision)

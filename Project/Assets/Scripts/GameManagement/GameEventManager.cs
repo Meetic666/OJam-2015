@@ -52,7 +52,7 @@ public class GameEventManager : MonoBehaviour
 		}
 	}
 
-	public void ReceiveEvent(GameEvent gameEvent, GameObject target)
+	public void ReceiveEvent(GameEvent gameEvent, GameObject target, int value)
 	{
 		switch(gameEvent)
 		{
@@ -65,15 +65,15 @@ public class GameEventManager : MonoBehaviour
 			break;
 
 		case GameEvent.e_EnemyKilled:
-			OnEnemyKilled(target);
+			OnEnemyKilled(target, value);
 			break;
 
 		case GameEvent.e_CivilianKilled:
-			OnCivilianKilled(target);
+			OnCivilianKilled(target, value);
 			break;
 
 		case GameEvent.e_PlayerHit:
-			OnPlayerHit(target);
+			OnPlayerHit(value);
 			break;
 
 		case GameEvent.e_PlayerKilled:
@@ -100,19 +100,19 @@ public class GameEventManager : MonoBehaviour
 		}
 	}
 
-	void OnEnemyKilled(GameObject target)
+	void OnEnemyKilled(GameObject target, int score)
 	{
 		if(!m_GamePaused && (m_CurrentState == GameState.e_GamePart1 || m_CurrentState == GameState.e_GamePart2))
 		{
-			// TODO: increment score
+			m_PlayerScore.IncreaseScore((uint)score);
 		}
 	}
 
-	void OnCivilianKilled(GameObject target)
+	void OnCivilianKilled(GameObject target, int score)
 	{
 		if(!m_GamePaused && (m_CurrentState == GameState.e_GamePart1 || m_CurrentState == GameState.e_GamePart2))
 		{
-			// TODO: decrement score
+			m_PlayerScore.DecreaseScore((uint)score);
 		}
 	}
 
@@ -121,20 +121,8 @@ public class GameEventManager : MonoBehaviour
 		m_Timer = m_TimeBeforeReset;
 	}
 
-	void OnPlayerHit(GameObject projectile)
+	void OnPlayerHit(int damage)
 	{
-		float damage = 0;
-
-		if(projectile.GetComponent<Pelican>())
-		{
-			damage = projectile.GetComponent<Pelican>().AtkDamage;
-		}
-		else if(projectile.GetComponent<Bullet>())
-		{
-			// TODO: get bullet's damage
-			//damage = projectile.GetComponent<Bullet>().
-		}
-
 		m_PlayerHealth.Hit(damage);
 	}
 
@@ -147,7 +135,7 @@ public class GameEventManager : MonoBehaviour
 	[ContextMenu("Pause game")]
 	void PauseGame()
 	{
-		ReceiveEvent(GameEvent.e_GamePaused, null);
+		ReceiveEvent(GameEvent.e_GamePaused, null, 0);
 	}
 
 	[ContextMenu("Hit player")]
