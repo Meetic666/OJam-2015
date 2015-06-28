@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerMovement : MonoBehaviour {
+public class PlayerMovement : MonoBehaviour, BaseHealth<int> {
 
     Rigidbody m_Body;
     const float GRAVITY = 10f;
@@ -71,6 +71,10 @@ public class PlayerMovement : MonoBehaviour {
         m_Body.AddForce(force);
 	}
 
+	public void Damage(int dmg)
+	{
+
+	}
 
     void OnCollisionEnter(Collision collision)
     {

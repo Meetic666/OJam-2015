@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Mini_UFO : BaseAI 
+public class Mini_UFO : BaseAI , BaseHealth<int>
 {
 	public float m_SinWaveDist;
 	public float m_SeperationMul;

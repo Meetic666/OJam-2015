@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Boss_UFO : BaseAI 
+public class Boss_UFO : BaseAI , BaseHealth<int>
 {
 	enum BehaviourStates
 	{
@@ -161,6 +161,7 @@ public class Boss_UFO : BaseAI
 
 	void ChangeState()
 	{
+
 		if(m_StateQueue[1] == BehaviourStates.e_Idle)
 		{
 			int rand = (int)Random.Range(0, 6);
@@ -217,5 +218,16 @@ public class Boss_UFO : BaseAI
 		projectile.transform.eulerAngles = (m_Turrets [rand % 2].transform.position - transform.position).normalized;
 
 		m_CurrentShotsFired++;
+	}
+
+	public void Damage(int dmg)
+	{
+		Health -= dmg;
+		
+		if(Health <= 0)
+		{
+			m_StateQueue[1] = BehaviourStates.e_Death;
+			ChangeState();
+		}
 	}
 }
