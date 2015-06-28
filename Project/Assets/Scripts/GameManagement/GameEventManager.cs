@@ -302,10 +302,21 @@ public class GameEventManager : MonoBehaviour
 		{
 			m_PlayerScore.DecreaseScore((uint)score);
 
-			/*if(target.tag == "Car")
-			{
+			Car car = target.GetComponent<Car>();
+			long oldValue;
 
-			}*/
+			if(car is Truck)
+			{
+				oldValue = m_TrucksDestroyed;
+				m_TrucksDestroyed++;
+				UpdateAchievements(AchievementType.e_FourthOfJuly, oldValue, m_TrucksDestroyed);
+			}
+			else
+			{
+				oldValue = m_CarsDestroyed;
+				m_CarsDestroyed++;
+				UpdateAchievements(AchievementType.e_DrunkDriver, oldValue, m_CarsDestroyed);
+			}
 		}
 	}
 

@@ -6,6 +6,8 @@ public class Bullet : MonoBehaviour
     public float m_Speed;
     Rigidbody m_Body;
 
+	public GameObject m_HitParticles;
+
     void Start()
     {
         m_Body = gameObject.GetComponent<Rigidbody>();
@@ -26,6 +28,11 @@ public class Bullet : MonoBehaviour
 	        {
 	            health.Damage(1);
 	        }
+
+			if(m_HitParticles != null)
+			{
+				Instantiate (m_HitParticles, transform.position, Quaternion.identity);
+			}
 
 	        Destroy(gameObject);
 		}
