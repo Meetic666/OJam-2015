@@ -40,7 +40,12 @@ public class CameraController : MonoBehaviour {
             finalPos.x = pos.x;
             finalPos.y = pos.y;
         }
-        finalPos += new Vector3(Random.Range(-m_ShakeAmount, m_ShakeAmount), Random.Range(-m_ShakeAmount, m_ShakeAmount), Random.Range(-m_ShakeAmount, m_ShakeAmount));
+
+		if(Time.timeScale != 0.0f)
+		{
+        	finalPos += new Vector3(Random.Range(-m_ShakeAmount, m_ShakeAmount), Random.Range(-m_ShakeAmount, m_ShakeAmount), Random.Range(-m_ShakeAmount, m_ShakeAmount));
+		}
+
         transform.position = finalPos;
 
         if (m_ShakeAmount > 0f)
