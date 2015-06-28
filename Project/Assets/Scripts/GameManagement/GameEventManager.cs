@@ -39,6 +39,11 @@ public class GameEventManager : MonoBehaviour
 		}
 	}
 
+	void Start()
+	{
+		Time.timeScale = 0.0f;
+	}
+
 	void Update()
 	{
 		if(m_Timer > 0.0f)
@@ -87,6 +92,8 @@ public class GameEventManager : MonoBehaviour
 		if(m_CurrentState == GameState.e_MainMenu)
 		{
 			m_CurrentState = GameState.e_GamePart1;
+
+			Time.timeScale = 1.0f;
 		}
 	}
 
