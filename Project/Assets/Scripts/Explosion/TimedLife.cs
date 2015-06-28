@@ -3,7 +3,7 @@ using System.Collections;
 
 public class TimedLife : MonoBehaviour {
 
-    float m_Timer = 3f;
+    public float m_Timer = 3f;
 
 	// Update is called once per frame
 	void Update ()

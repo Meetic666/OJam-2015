@@ -41,7 +41,7 @@ public class CameraController : MonoBehaviour {
 
         if (Vector2.Distance(pos, playPos) > LERP_DISTANCE)
         {
-            pos = Vector2.Lerp(pos, playPos, Mathf.Min(LEPR_SIDE_SPEED_PRE_DELTA * Time.deltaTime, 1f));
+            pos = Vector2.Lerp(pos, playPos, Mathf.Min(LEPR_SIDE_SPEED_PRE_DELTA * Time.deltaTime, 1.0f));
             finalPos.x = pos.x;
             finalPos.y = pos.y;
         }
@@ -50,6 +50,8 @@ public class CameraController : MonoBehaviour {
 		{
         	finalPos += new Vector3(Random.Range(-m_ShakeAmount, m_ShakeAmount), Random.Range(-m_ShakeAmount, m_ShakeAmount), Random.Range(-m_ShakeAmount, m_ShakeAmount));
 		}
+
+		finalPos.y = m_PlayerTrans.position.y + 3;
 
         transform.position = finalPos;
 
@@ -60,6 +62,7 @@ public class CameraController : MonoBehaviour {
 
         lastLookatAt = Vector3.Lerp(lastLookatAt, m_PlayerTrans.position + m_Body.velocity.normalized * LOOK_FORWARD_AMOUNT, Mathf.Min(Time.deltaTime * LOOK_LERP_PRE_DELTA, 1f));
         transform.LookAt(lastLookatAt);
+
 	}
 
     public void Shake(float amount)

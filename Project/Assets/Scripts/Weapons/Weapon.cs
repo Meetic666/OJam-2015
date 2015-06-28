@@ -71,8 +71,8 @@ public class Weapon : MonoBehaviour
         Vector3 offset = Vector3.zero;
         if (RandomOffset > 0f)
         {
-            offset += transform.up * Random.Range(-RandomOffset, RandomOffset);
-            offset += transform.right * Random.Range(-RandomOffset, RandomOffset);
+			offset += transform.up * Random.Range(-RandomOffset, RandomOffset);
+			offset += transform.right * Random.Range(-RandomOffset, RandomOffset);
         }
         Vector3 spawnPos = transform.position + transform.forward * 6f + offset;
         GameObject newProjectile = (GameObject) GameObject.Instantiate(m_Projectile, spawnPos, Quaternion.FromToRotation(Vector3.forward, (spawnPos - transform.position).normalized));

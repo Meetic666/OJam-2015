@@ -95,7 +95,7 @@ public class Mini_UFO : BaseAI , BaseHealth<int>
 		{
 		//Launch projectile at player
 		GameObject projectile = (GameObject)Instantiate (m_Projectile);
-		projectile.transform.position = transform.position + transform.forward;
+		projectile.transform.position = transform.position + (transform.forward * 2);
 		projectile.transform.forward = m_Player.transform.position - transform.position;
 		}
 	}

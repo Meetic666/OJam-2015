@@ -5,7 +5,7 @@ public class PlayerMovement : MonoBehaviour, BaseHealth<int> {
 
     Rigidbody m_Body;
     const float GRAVITY = 10f;
-    const float SPEED = 80f;
+    const float SPEED = 4000f;
     const float CONTROL_ACCELERATION = 2.5f;
 
 	GameEventManager m_GameEventManager;
@@ -16,9 +16,13 @@ public class PlayerMovement : MonoBehaviour, BaseHealth<int> {
 
 	float m_CollisionTimer;
 
+	ScoreManager m_PlayerScore;
+
 	// Use this for initialization
 	void Start ()
     {
+		m_PlayerScore = FindObjectOfType<ScoreManager> ();
+
         m_Body = (Rigidbody)gameObject.GetComponent<Rigidbody>();
 
 		m_GameEventManager = FindObjectOfType<GameEventManager>();
@@ -27,6 +31,12 @@ public class PlayerMovement : MonoBehaviour, BaseHealth<int> {
 	// Update is called once per frame
 	void Update ()
     {
+		if(transform.eulerAngles.y > 70 && transform.eulerAngles.y < 290)
+		{
+			m_GameEventManager.ReceiveEvent(GameEvent.e_PlayerHit, null, 100);
+		}
+
+
 		if(Time.timeScale != 0.0f)
 		{
 			if(!m_JetSound.isPlaying)
@@ -76,7 +86,14 @@ public class PlayerMovement : MonoBehaviour, BaseHealth<int> {
                 turn.x += CONTROL_ACCELERATION;
             }
         }
-        turn += autoTurn * 0.04f * m_CollisionMultiplier;
+		if(!Input.anyKey)
+		{
+			turn += autoTurn * 0.2f * m_CollisionMultiplier;
+		}
+		else if(Input.GetKey (KeyCode.Mouse0) || Input.GetKey (KeyCode.Mouse0))
+		{
+			turn += autoTurn * 0.2f * m_CollisionMultiplier;
+		}
 
         /*if (transform.rotation.z > 0.5f)
         {
@@ -91,7 +108,7 @@ public class PlayerMovement : MonoBehaviour, BaseHealth<int> {
 
 		if(Time.timeScale != 0.0f)
 		{
-	        Vector3 force = SPEED * transform.forward;
+	        Vector3 force = SPEED * transform.forward * Time.deltaTime;
 	        m_Body.AddForce(force);
 		}
 
