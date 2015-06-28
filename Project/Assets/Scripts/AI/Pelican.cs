@@ -91,6 +91,16 @@ public class Pelican : BaseAI
 		gameObject.SetActive (false);
 	}
 
+	public void Damage(int dmg)
+	{
+		Health -= dmg;
+
+		if(Health <= 0)
+		{
+			Death();
+		}
+	}
+
 	void OnTriggerEnter(Collider other)
 	{
 		if(other.tag != "Wall" && other.tag != "Player")

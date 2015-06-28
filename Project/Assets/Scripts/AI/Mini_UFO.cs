@@ -84,10 +84,8 @@ public class Mini_UFO : BaseAI
 	{
 		//Launch projectile at player
 		GameObject projectile = (GameObject)Instantiate (m_Projectile);
-		projectile.transform.position = transform.position;
+		projectile.transform.position = transform.position + transform.forward;
 		projectile.transform.eulerAngles = m_Player.transform.position - transform.position;
-
-		//Set speed of projectile
 	}
 	
 	void Death()
@@ -99,7 +97,17 @@ public class Mini_UFO : BaseAI
 		
 		gameObject.SetActive (false);
 	}
-	
+
+	public void Damage(int dmg)
+	{
+		Health -= dmg;
+		
+		if(Health <= 0)
+		{
+			Death();
+		}
+	}
+
 	void OnTriggerEnter(Collider other)
 	{
 		if(other.tag != "Wall" || other.tag != "Enemy" || other.tag != "Player")

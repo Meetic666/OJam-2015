@@ -11,8 +11,7 @@ public class SpawnManager : MonoBehaviour
 	public GameObject m_Player;
 
 	public GameObject m_EnemySpawnPoint;
-	public GameObject m_VehicleSpawnPoint;
-	public GameObject[] m_PedestrianSpawnPoints = new GameObject[2];
+	public GameObject[] m_VehicleSpawnPoints = new GameObject[3];
 
 	//Temporarily public
 	public int m_PelicansPerWave;
@@ -85,10 +84,5 @@ public class SpawnManager : MonoBehaviour
 
 			}
 		}
-	}
-
-	public void StartNextStage()
-	{
-		//Spawn additional wave and change percentage values
 	}
 }
