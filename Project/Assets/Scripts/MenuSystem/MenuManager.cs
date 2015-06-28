@@ -8,6 +8,7 @@ public class MenuManager : MonoBehaviour
 	public GameObject m_SplashMenu;
 	public GameObject m_MainMenu;
 	public GameObject m_PauseMenu;
+	public GameObject m_GameMenu;
 
 	// Use this for initialization
 	void Start () 
@@ -41,6 +42,7 @@ public class MenuManager : MonoBehaviour
 
 		case ActionType.e_Start:
 			m_GameEventManager.ReceiveEvent(GameEvent.e_GameLaunched, null);
+			m_GameMenu.SetActive (true);
 			m_MainMenu.SetActive (false);
 			break;
 

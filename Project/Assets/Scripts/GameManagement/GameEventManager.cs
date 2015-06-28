@@ -6,14 +6,21 @@ public enum GameEvent
 	e_GameLaunched,
 	e_GamePaused,
 	e_EnemyKilled,
-	e_CivilianKilled
+	e_CivilianKilled,
+	e_PlayerHit,
+	e_PlayerKilled
 }
 
 public class GameEventManager : MonoBehaviour 
 {
+	float m_TimeBeforeReset = 5.0f;
+	float m_Timer;
+
 	GameState m_CurrentState = GameState.e_MainMenu;
 
 	bool m_GamePaused = false;
+
+	public HealthManager m_PlayerHealth;
 
 	public GameState CurrentState
 	{
@@ -31,6 +38,19 @@ public class GameEventManager : MonoBehaviour
 		}
 	}
 
+	void Update()
+	{
+		if(m_Timer > 0.0f)
+		{
+			m_Timer -= Time.deltaTime;
+
+			if(m_Timer <= 0.0f)
+			{
+				Application.LoadLevel(Application.loadedLevel);
+			}
+		}
+	}
+
 	public void ReceiveEvent(GameEvent gameEvent, GameObject target)
 	{
 		switch(gameEvent)
@@ -45,6 +65,17 @@ public class GameEventManager : MonoBehaviour
 
 		case GameEvent.e_EnemyKilled:
 			OnEnemyKilled(target);
+			break;
+
+		case GameEvent.e_CivilianKilled:
+			break;
+
+		case GameEvent.e_PlayerHit:
+			// TODO: Hook up with projectile's damage
+			break;
+
+		case GameEvent.e_PlayerKilled:
+			OnPlayerKilled();
 			break;
 		}
 	}
@@ -75,6 +106,11 @@ public class GameEventManager : MonoBehaviour
 		}
 	}
 
+	void OnPlayerKilled()
+	{		
+		m_Timer = m_TimeBeforeReset;
+	}
+
 	[ContextMenu("Move One State")]
 	void MoveOneState()
 	{
@@ -85,5 +121,11 @@ public class GameEventManager : MonoBehaviour
 	void PauseGame()
 	{
 		ReceiveEvent(GameEvent.e_GamePaused, null);
+	}
+
+	[ContextMenu("Hit player")]
+	void HitPlayer()
+	{
+		m_PlayerHealth.Hit (10.0f);
 	}
 }
