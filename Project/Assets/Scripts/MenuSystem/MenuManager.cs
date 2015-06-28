@@ -20,8 +20,6 @@ public class MenuManager : MonoBehaviour
 
 	void Update()
 	{
-		m_PauseMenu.SetActive(m_GameEventManager.GamePaused);
-
 		Cursor.visible = (m_GameEventManager.CurrentState == GameState.e_MainMenu || m_GameEventManager.GamePaused || m_GameEventManager.CurrentState == GameState.e_End);
 	}
 
@@ -32,6 +30,7 @@ public class MenuManager : MonoBehaviour
 		case ActionType.e_Achievements:
 			m_AchievementMenu.SetActive(true);
 			m_MainMenu.SetActive (false);
+			m_PauseMenu.SetActive(false);
 			break;
 
 		case ActionType.e_AnyKey:
@@ -42,6 +41,7 @@ public class MenuManager : MonoBehaviour
 		case ActionType.e_Leaderboard:
 			m_LeaderboardMenu.SetActive(true);
 			m_MainMenu.SetActive(false);
+			m_PauseMenu.SetActive(false);
 			break;
 
 		case ActionType.e_Quit:
@@ -62,8 +62,27 @@ public class MenuManager : MonoBehaviour
 		case ActionType.e_BackToMenu:
 			m_LeaderboardMenu.SetActive(false);
 			m_AchievementMenu.SetActive(false);
-			m_MainMenu.SetActive(true);
+			m_MainMenu.SetActive(!m_GameEventManager.GamePaused);
+			m_PauseMenu.SetActive(m_GameEventManager.GamePaused);
 			break;
+		}
+	}
+
+	void OnGUI()
+	{
+		if(Event.current.type == EventType.KeyDown)
+		{
+			if(Input.GetKeyDown (KeyCode.Escape))
+			{
+				m_GameEventManager.ReceiveEvent(GameEvent.e_GamePaused, null , 0);
+
+				m_PauseMenu.SetActive(m_GameEventManager.GamePaused);
+			}
+
+			if(m_SplashMenu.activeSelf)
+			{
+				DoAction(ActionType.e_AnyKey);
+			}
 		}
 	}
 }

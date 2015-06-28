@@ -30,13 +30,18 @@ public class LeaderboardMenu : MonoBehaviour
 	
 	void OnGUI()
 	{
-		GUI.TextArea(Camera.main.pixelRect, m_ParsedLeaderboard);
-
 		m_BackButtonPosition = Camera.main.pixelRect;
 		m_BackButtonPosition.width *= 0.2f;
 		m_BackButtonPosition.height *= 0.1f;
 		m_BackButtonPosition.x = (Camera.main.pixelRect.width - m_BackButtonPosition.width) * 0.5f;
 		m_BackButtonPosition.y = Camera.main.pixelRect.height - m_BackButtonPosition.height;
+
+		Rect m_TextRect = Camera.main.pixelRect;
+		m_TextRect.width = m_BackButtonPosition.width;
+		m_TextRect.x = m_BackButtonPosition.x;
+		m_TextRect.height = m_TextRect.height - m_BackButtonPosition.height;
+
+		GUI.TextField(m_TextRect, m_ParsedLeaderboard);
 		
 		if(GUI.Button(m_BackButtonPosition, "Back"))
 		{

@@ -9,7 +9,8 @@ public enum ActionType
 	e_Achievements,
 	e_Leaderboard,
 	e_Resume,
-	e_BackToMenu
+	e_BackToMenu,
+	e_BackToPause
 }
 
 public class Button : MonoBehaviour 
