@@ -46,16 +46,16 @@ public class SpawnManager : MonoBehaviour
 				if((m_RandomNumb % 2) == 0)
 				{
 					GameObject enemy = (GameObject)Instantiate(m_MiniUFOPrefab);
-//					enemy.transform.position = m_EnemySpawnPoint + new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), Random.Range(-1, 1));
-//					enemy.transform.eulerAngles = m_Player.transform.position - m_EnemySpawnPoint.transform.position;
+					enemy.transform.position = m_EnemySpawnPoint.transform.position + new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), Random.Range(-1, 1));
+					enemy.transform.eulerAngles = m_Player.transform.position - m_EnemySpawnPoint.transform.position;
 
 					m_DelayBetweenSpawnsTimer = m_DelayBetweenSpawns * 1.5f;
 				}
 				else
 				{
 					GameObject enemy = (GameObject)Instantiate(m_PelicanPrefab);
-//					enemy.transform.position = m_EnemySpawnPoint + new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), Random.Range(-1, 1));
-//					enemy.transform.eulerAngles = m_Player.transform.position - m_EnemySpawnPoint.transform.position;
+					enemy.transform.position = m_EnemySpawnPoint.transform.position + new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), Random.Range(-1, 1));
+					enemy.transform.eulerAngles = m_Player.transform.position - m_EnemySpawnPoint.transform.position;
 					
 					m_DelayBetweenSpawnsTimer = m_DelayBetweenSpawns;
 				}
