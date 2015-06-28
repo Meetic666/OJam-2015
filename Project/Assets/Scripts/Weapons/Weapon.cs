@@ -8,6 +8,8 @@ public class Weapon : MonoBehaviour
     public float ShakeOnFire = 1f;
     public float RandomOffset = 0f;
 
+	public AudioSource m_WeaponSound;
+
     CameraController m_Camera;
     float m_FiringTimer = -1f;
 
@@ -49,7 +51,20 @@ public class Weapon : MonoBehaviour
                 SpawnProjectile();
             }
         }
+
+		if(m_WeaponSound != null && !m_WeaponSound.isPlaying)
+		{
+			m_WeaponSound.Play ();
+		}
     }
+
+	public void EndFire()
+	{
+		if(m_WeaponSound != null)
+		{
+			m_WeaponSound.Stop ();
+		}
+	}
 
     void SpawnProjectile()
     {
@@ -60,7 +75,9 @@ public class Weapon : MonoBehaviour
             offset += transform.right * Random.Range(-RandomOffset, RandomOffset);
         }
         Vector3 spawnPos = transform.position + transform.forward * 6f + offset;
-        GameObject.Instantiate(m_Projectile, spawnPos, Quaternion.FromToRotation(Vector3.forward, (spawnPos - transform.position).normalized));
+        GameObject newProjectile = (GameObject) GameObject.Instantiate(m_Projectile, spawnPos, Quaternion.FromToRotation(Vector3.forward, (spawnPos - transform.position).normalized));
+		newProjectile.tag = tag;
+		newProjectile.layer = gameObject.layer;
     }
 
     public bool CanFire()

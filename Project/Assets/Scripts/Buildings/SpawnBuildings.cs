@@ -14,6 +14,8 @@ public class SpawnBuildings : MonoBehaviour {
     List<GameObject> m_RoadPrefabs;
     float m_LastRoadPos = 0f;
 
+	float m_RoadOffset = 296.4f;
+
 	// Use this for initialization
 	void Start ()
     {
@@ -71,7 +73,7 @@ public class SpawnBuildings : MonoBehaviour {
     {
         for (int i = 0; i < m_Buildings.Count; i++)
         {
-            if (m_Buildings[i].transform.position.z < transform.position.z - 20f - m_Buildings[i].transform.localScale.x * 0.5f)
+            if (m_Buildings[i].transform.position.z < transform.position.z - 50f - m_Buildings[i].transform.localScale.x * 0.5f)
             {
                 GameObject.Destroy(m_Buildings[i]);
                 m_Buildings.RemoveAt(i);
@@ -80,7 +82,7 @@ public class SpawnBuildings : MonoBehaviour {
 
         for (int i = 0; i < m_Roads.Count; i++)
         {
-            if (m_Roads[i].transform.position.z < transform.position.z - m_Roads[i].transform.localScale.x * 0.5f)
+            if (m_Roads[i].transform.position.z < transform.position.z - m_RoadOffset * 0.5f)
             {
                 GameObject.Destroy(m_Roads[i]);
                 m_Roads.RemoveAt(i);
@@ -134,10 +136,9 @@ public class SpawnBuildings : MonoBehaviour {
     void SpawnRoad()
     {
         //New Road
-        GameObject road = (GameObject)GameObject.Instantiate(m_RoadPrefabs[Random.Range(0, m_RoadPrefabs.Count)]);
-        m_LastRoadPos += road.transform.localScale.x * 0.47f;
-        road.transform.position = new Vector3 (0f, -16f, m_LastRoadPos);
-        m_LastRoadPos += road.transform.localScale.x * 0.47f;
+		GameObject road = (GameObject)GameObject.Instantiate(m_RoadPrefabs[Random.Range(0, m_RoadPrefabs.Count)]);
+		road.transform.position = new Vector3 (0f, -16f, m_LastRoadPos);
+        m_LastRoadPos += m_RoadOffset;
         m_Roads.Add(road);
     }
 }

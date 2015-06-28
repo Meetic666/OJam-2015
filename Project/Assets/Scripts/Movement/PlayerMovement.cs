@@ -10,6 +10,12 @@ public class PlayerMovement : MonoBehaviour, BaseHealth<int> {
 
 	GameEventManager m_GameEventManager;
 
+	public AudioSource m_JetSound;
+
+	float m_CollisionMultiplier = 1.0f;
+
+	float m_CollisionTimer;
+
 	// Use this for initialization
 	void Start ()
     {
@@ -21,6 +27,18 @@ public class PlayerMovement : MonoBehaviour, BaseHealth<int> {
 	// Update is called once per frame
 	void Update ()
     {
+		if(Time.timeScale != 0.0f)
+		{
+			if(!m_JetSound.isPlaying)
+			{
+				m_JetSound.Play ();
+			}
+		}
+		else
+		{
+			m_JetSound.Pause();
+		}
+
         //Turn
         Vector3 turn = Vector3.zero;
 
@@ -58,7 +76,7 @@ public class PlayerMovement : MonoBehaviour, BaseHealth<int> {
                 turn.x += CONTROL_ACCELERATION;
             }
         }
-        turn += autoTurn * 0.04f;
+        turn += autoTurn * 0.04f * m_CollisionMultiplier;
 
         /*if (transform.rotation.z > 0.5f)
         {
@@ -71,8 +89,21 @@ public class PlayerMovement : MonoBehaviour, BaseHealth<int> {
 
         m_Body.angularVelocity = new Vector3(m_Body.angularVelocity.x, m_Body.angularVelocity.y, -transform.rotation.z) + turn * Time.deltaTime;
 
-        Vector3 force = SPEED * transform.forward;
-        m_Body.AddForce(force);
+		if(Time.timeScale != 0.0f)
+		{
+	        Vector3 force = SPEED * transform.forward;
+	        m_Body.AddForce(force);
+		}
+
+		if(m_CollisionTimer > 0.0f)
+		{
+			m_CollisionTimer -= Time.deltaTime;
+
+			if(m_CollisionTimer >= 0.0f)
+			{
+				m_CollisionMultiplier = 1.0f;
+			}
+		}
 	}
 
 	public void Damage(int dmg)
@@ -85,6 +116,12 @@ public class PlayerMovement : MonoBehaviour, BaseHealth<int> {
         //Just here for testing, may be changed to the player asploding
         CameraController cam = Camera.main.GetComponent<CameraController>();
         cam.Shake(1f);
+
+		if(collision.gameObject.tag == "Sides")
+		{
+			m_CollisionMultiplier = 2.0f;
+			m_CollisionTimer = 2.0f;
+		}
     }
 }
 

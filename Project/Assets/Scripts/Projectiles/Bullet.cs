@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Bullet : MonoBehaviour {
-
+public class Bullet : MonoBehaviour 
+{
     public float m_Speed;
     Rigidbody m_Body;
 
@@ -19,11 +19,15 @@ public class Bullet : MonoBehaviour {
 
     void OnCollisionEnter(Collision collisionInfo)
     {
-        BaseHealth<int> health = collisionInfo.gameObject.GetComponent<BaseHealth<int>>();
-        if (health != null)
-        {
-            health.Damage(1);
-        }
-        Destroy(gameObject);
+		if(collisionInfo.gameObject.tag != tag)
+		{
+	        BaseHealth<int> health = collisionInfo.gameObject.GetComponent<BaseHealth<int>>();
+	        if (health != null)
+	        {
+	            health.Damage(1);
+	        }
+
+	        Destroy(gameObject);
+		}
     }
 }
