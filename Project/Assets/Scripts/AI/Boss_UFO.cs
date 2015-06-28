@@ -85,9 +85,11 @@ public class Boss_UFO : BaseAI , BaseHealth<int>
 
 				transform.position = newPos;
 			}
-			else if (m_MinionsCleared)
+			else
 			{
 				ChangeState();
+
+				m_GameEventManager.ReceiveEvent(GameEvent.e_EngagedBoss, null, 0);
 			}
 
 			break;

@@ -8,7 +8,8 @@ public enum GameEvent
 	e_EnemyKilled,
 	e_CivilianKilled,
 	e_PlayerHit,
-	e_PlayerKilled
+	e_PlayerKilled,
+	e_EngagedBoss
 }
 
 public class GameEventManager : MonoBehaviour 
@@ -84,6 +85,10 @@ public class GameEventManager : MonoBehaviour
 		case GameEvent.e_PlayerKilled:
 			OnPlayerKilled();
 			break;
+
+		case GameEvent.e_EngagedBoss:
+			OnBossEngaged();
+			break;
 		}
 	}
 
@@ -116,7 +121,7 @@ public class GameEventManager : MonoBehaviour
 			BaseAI enemy = target.GetComponent<BaseAI>();
 
 			// TODO: achievements !!!
-			/*if(enemy is Pelican)
+			if(enemy is Pelican)
 			{
 
 			}
@@ -126,8 +131,8 @@ public class GameEventManager : MonoBehaviour
 			}
 			else if(enemy is Boss_UFO)
 			{
-				
-			}*/
+				m_CurrentState = GameState.e_End;
+			}
 		}
 	}
 
@@ -147,6 +152,11 @@ public class GameEventManager : MonoBehaviour
 	void OnPlayerHit(int damage)
 	{
 		m_PlayerHealth.Hit(damage);
+	}
+
+	void OnBossEngaged()
+	{
+		m_CurrentState = GameState.e_GamePart2;
 	}
 
 	[ContextMenu("Move One State")]
