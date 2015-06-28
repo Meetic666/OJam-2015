@@ -268,6 +268,14 @@ public class GameEventManager : MonoBehaviour
 
 	void UpdateAchievements(AchievementType type, long previousValue, long newValue)
 	{
+		if(IsAchievementJustUnlocked(type, previousValue, newValue))
+		{
+			m_AchievementsManager.ShowAchievement(type);
+		}
+	}
+
+	bool IsAchievementJustUnlocked(AchievementType type, long previousValue, long newValue)
+	{
 		bool achievementUnlocked = false;
 
 		switch(type)
@@ -279,7 +287,7 @@ public class GameEventManager : MonoBehaviour
 				achievementUnlocked = true;
 			}
 			break;
-
+			
 		case AchievementType.e_FourthOfJuly:
 			if(previousValue + m_TrucksDestroyedGlobal < m_TrucksDestroyedAchievement
 			   && newValue + m_TrucksDestroyedGlobal >= m_TrucksDestroyedAchievement)
@@ -287,7 +295,7 @@ public class GameEventManager : MonoBehaviour
 				achievementUnlocked = true;
 			}
 			break;
-
+			
 		case AchievementType.e_LastProtector:
 			if(previousValue + m_MiniUFOsShotGlobal< m_MiniUFOsShotAchievement
 			   && newValue + m_MiniUFOsShotGlobal >= m_MiniUFOsShotAchievement)
@@ -295,7 +303,7 @@ public class GameEventManager : MonoBehaviour
 				achievementUnlocked = true;
 			}
 			break;
-
+			
 		case AchievementType.e_StillTrying:
 			if(previousValue + m_BossesKilledGlobal < m_BossesKilledAchievement
 			   && newValue + m_BossesKilledGlobal >= m_BossesKilledAchievement)
@@ -303,15 +311,15 @@ public class GameEventManager : MonoBehaviour
 				achievementUnlocked = true;
 			}
 			break;
-
+			
 		case AchievementType.e_TrueFriend:
 			if(previousValue + m_BirdsShotGlobal < m_BirdsShotAchievement
-				&& newValue + m_BirdsShotGlobal >= m_BirdsShotAchievement)
+			   && newValue + m_BirdsShotGlobal >= m_BirdsShotAchievement)
 			{
 				achievementUnlocked = true;
 			}
 			break;
-
+			
 		case AchievementType.e_WillSmith:
 			if(previousValue + m_BossesKilledGlobal < 1
 			   && newValue + m_BossesKilledGlobal >= 1)
@@ -321,10 +329,59 @@ public class GameEventManager : MonoBehaviour
 			break;
 		}
 
-		if(achievementUnlocked)
+		return achievementUnlocked;
+	}
+
+	public bool IsAchievementUnlocked(AchievementType type)
+	{
+		bool achievementUnlocked = false;
+
+		switch(type)
 		{
-			m_AchievementsManager.ShowAchievement(type);
+		case AchievementType.e_DrunkDriver:
+			if(m_CarsDestroyed + m_CarsDestroyedGlobal >= m_CarsDestroyedAchievement)
+			{
+				achievementUnlocked = true;
+			}
+			break;
+			
+		case AchievementType.e_FourthOfJuly:
+			if(m_TrucksDestroyed + m_TrucksDestroyedGlobal >= m_TrucksDestroyedAchievement)
+			{
+				achievementUnlocked = true;
+			}
+			break;
+			
+		case AchievementType.e_LastProtector:
+			if(m_MiniUFOsShot + m_MiniUFOsShotGlobal >= m_MiniUFOsShotAchievement)
+			{
+				achievementUnlocked = true;
+			}
+			break;
+			
+		case AchievementType.e_StillTrying:
+			if(m_BossesKilled + m_BossesKilledGlobal >= m_BossesKilledAchievement)
+			{
+				achievementUnlocked = true;
+			}
+			break;
+			
+		case AchievementType.e_TrueFriend:
+			if(m_BirdsShot + m_BirdsShotGlobal >= m_BirdsShotAchievement)
+			{
+				achievementUnlocked = true;
+			}
+			break;
+			
+		case AchievementType.e_WillSmith:
+			if(m_BossesKilled + m_BossesKilledGlobal >= 1)
+			{
+				achievementUnlocked = true;
+			}
+			break;
 		}
+
+		return achievementUnlocked;
 	}
 
 	[ContextMenu("Move One State")]
@@ -355,5 +412,12 @@ public class GameEventManager : MonoBehaviour
 	void DecreaseScore()
 	{
 		m_PlayerScore.DecreaseScore(30);
+	}
+
+	[ContextMenu("Unlock true friend")]
+	void UnlockTrueFriend()
+	{
+		m_BirdsShot = 130;
+		UpdateAchievements(AchievementType.e_TrueFriend, 0, m_BirdsShot);
 	}
 }

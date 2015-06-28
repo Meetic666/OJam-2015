@@ -9,6 +9,7 @@ public class MenuManager : MonoBehaviour
 	public GameObject m_MainMenu;
 	public GameObject m_PauseMenu;
 	public GameObject m_GameMenu;
+	public GameObject m_AchievementMenu;
 
 	// Use this for initialization
 	void Start () 
@@ -26,6 +27,8 @@ public class MenuManager : MonoBehaviour
 		switch(action)
 		{
 		case ActionType.e_Achievements:
+			m_AchievementMenu.SetActive(true);
+			m_MainMenu.SetActive (false);
 			break;
 
 		case ActionType.e_AnyKey:
@@ -49,6 +52,11 @@ public class MenuManager : MonoBehaviour
 		case ActionType.e_Resume:
 			m_GameEventManager.ReceiveEvent(GameEvent.e_GamePaused, null, 0);
 			m_PauseMenu.SetActive(false);
+			break;
+
+		case ActionType.e_BackToMenu:
+			m_AchievementMenu.SetActive(false);
+			m_MainMenu.SetActive(true);
 			break;
 		}
 	}

@@ -8,7 +8,8 @@ public enum ActionType
 	e_Quit,
 	e_Achievements,
 	e_Leaderboard,
-	e_Resume
+	e_Resume,
+	e_BackToMenu
 }
 
 public class Button : MonoBehaviour 
