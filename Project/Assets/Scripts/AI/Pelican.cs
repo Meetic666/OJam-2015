@@ -40,15 +40,15 @@ public class Pelican : BaseAI , BaseHealth<int>
 		newPos.z += ((m_Player.transform.position.z + MinDist2Player) - newPos.z) * Time.deltaTime * MovementSpeed;
 		newPos.x += Mathf.Sin (Time.time * MovementSpeed) * m_SinWaveDist;
 
-		if(m_Obstacles.Count > 0)
+		//if(m_Obstacles.Count > 0)
 		{
-			Vector3 seperationDist = CalcSeperation();
-			newPos.y -= (seperationDist.y * m_SeperationMul);
+			//Vector3 seperationDist = CalcSeperation();
+		//	newPos.y -= (seperationDist.y * m_SeperationMul);
 		}
-		else
+		//else
 		{
 			m_OriginalYpos += (m_Player.transform.position.y - m_OriginalYpos) * Time.deltaTime;
-			newPos.y += (m_OriginalYpos - newPos.y) * Time.deltaTime;
+			//newPos.y += (m_OriginalYpos - newPos.y) * Time.deltaTime;
 
 			newPos += (newPos - transform.position).normalized * Time.deltaTime * MovementSpeed;
 		}
@@ -109,11 +109,16 @@ public class Pelican : BaseAI , BaseHealth<int>
 		}
 	}
 
+	public void Revive()
+	{
+		Health = 1;
+	}
+
 	void OnTriggerEnter(Collider other)
 	{
 		if(other.tag != "Wall" && other.tag != "Player")
 		{
-			m_Obstacles.Add(other.gameObject);
+			//m_Obstacles.Add(other.gameObject);
 		}
 	}
 
@@ -121,7 +126,7 @@ public class Pelican : BaseAI , BaseHealth<int>
 	{
 		if(other.tag != "Wall" && other.tag != "Player")
 		{
-			m_Obstacles.Remove(other.gameObject);
+			//m_Obstacles.Remove(other.gameObject);
 		}
 	}
 

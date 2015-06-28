@@ -114,6 +114,11 @@ public class Mini_UFO : BaseAI , BaseHealth<int>
 		}
 	}
 
+	public void Revive()
+	{
+		Health = m_Health;
+	}
+
 	void OnTriggerEnter(Collider other)
 	{
 		/*if(other.tag != "Wall" && other.tag != "Enemy" && other.tag != "Player" && other.tag != "Projectile")

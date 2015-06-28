@@ -40,6 +40,7 @@ public class Boss_UFO : BaseAI , BaseHealth<int>
 	public int m_Health;
 	public float m_MinDist2Player;
 	public float m_MovementSpeed;
+	float m_Distance2Player;
 
 	// Use this for initialization
 	void Start () 
@@ -55,11 +56,13 @@ public class Boss_UFO : BaseAI , BaseHealth<int>
 		m_Player = FindObjectOfType<PlayerMovement> ().gameObject;
 
 		ScoreIncrease = 1000000;
+		m_Distance2Player = Vector3.Distance (transform.position, m_Player.transform.position);
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
+
 		RunState (m_StateQueue [0]);
 		m_DelayBetweenStatesTimer -= Time.deltaTime;
 
@@ -95,6 +98,9 @@ public class Boss_UFO : BaseAI , BaseHealth<int>
 					
 				newPos += (m_Player.transform.position - transform.position).normalized * Time.deltaTime * MovementSpeed;
 				newPos.y = transform.position.y;
+				newPos.z = m_Player.transform.position.z + m_Distance2Player;
+
+				m_Distance2Player -= Time.deltaTime * MovementSpeed;
 
 				transform.position = newPos;
 			}

@@ -9,16 +9,28 @@ public class SpawnBuildings : MonoBehaviour {
     float m_LastBuildingPosLeft = 0f;
     float m_Timer = TIMER;
     const float TIMER = 0.35f;
-
-    List<GameObject> m_Roads;
-    List<GameObject> m_RoadPrefabs;
+	
+    public GameObject m_RoadPrefab;
     float m_LastRoadPos = 0f;
 
 	float m_RoadOffset = 296.4f;
 
+	GameObject[] m_RoadsAsset = new GameObject[3];
+
 	// Use this for initialization
 	void Start ()
     {
+		m_RoadsAsset [0] = (GameObject)Instantiate (m_RoadPrefab);
+		m_RoadsAsset [0].SetActive (false);
+		m_RoadsAsset [1] = (GameObject)Instantiate (m_RoadPrefab);
+		m_RoadsAsset [1].SetActive (false);
+		m_RoadsAsset [2] = (GameObject)Instantiate (m_RoadPrefab);
+		m_RoadsAsset [2].SetActive (false);
+
+		SpawnRoad ();
+		SpawnRoad ();
+		SpawnRoad ();
+
         int index = 0;
         m_Buildings = new List<GameObject>();
         m_BuildingPrefabs = new List<GameObject>();
@@ -45,18 +57,17 @@ public class SpawnBuildings : MonoBehaviour {
         }
 
         index = 0;
-        m_Roads = new List<GameObject>();
-        m_RoadPrefabs = new List<GameObject>();
 
-        GameObject road = (GameObject)Resources.Load("Prefabs/Roads/Road" + index);
+       /* GameObject road = (GameObject)Resources.Load("Prefabs/Roads/Road" + index);
         while (road != null)
         {
-            m_RoadPrefabs.Add(road);
+            m_RoadPrefab.Add(road);
             index++;
             road = (GameObject)Resources.Load("Prefabs/Roads/Road" + index);
         }
+		*/
 
-        if (m_RoadPrefabs.Count == 0)
+      /*  if (m_RoadPrefab.Count == 0)
         {
             Destroy(this);
         }
@@ -65,7 +76,7 @@ public class SpawnBuildings : MonoBehaviour {
             SpawnRoad();
             SpawnRoad();
             SpawnRoad();
-        }
+        }*/
 	}
 	
 	// Update is called once per frame
@@ -80,12 +91,11 @@ public class SpawnBuildings : MonoBehaviour {
             }
         }
 
-        for (int i = 0; i < m_Roads.Count; i++)
+        for (int i = 0; i < m_RoadsAsset.Length; i++)
         {
-            if (m_Roads[i].transform.position.z < transform.position.z - m_RoadOffset * 0.5f)
+            if (m_RoadsAsset[i].transform.position.z < transform.position.z - m_RoadOffset * 0.5f)
             {
-                GameObject.Destroy(m_Roads[i]);
-                m_Roads.RemoveAt(i);
+				m_RoadsAsset[i].SetActive(false);
                 SpawnRoad();
             }
         }
@@ -136,9 +146,15 @@ public class SpawnBuildings : MonoBehaviour {
     void SpawnRoad()
     {
         //New Road
-		GameObject road = (GameObject)GameObject.Instantiate(m_RoadPrefabs[Random.Range(0, m_RoadPrefabs.Count)]);
-		road.transform.position = new Vector3 (0f, -16f, m_LastRoadPos);
-        m_LastRoadPos += m_RoadOffset;
-        m_Roads.Add(road);
+		for(int i = 0; i < m_RoadsAsset.Length; i++)
+		{
+			if(m_RoadsAsset[i].activeSelf == false)
+			{
+				m_RoadsAsset[i].transform.position = new Vector3 (0f, -16f, m_LastRoadPos);
+				m_RoadsAsset[i].SetActive(true);
+				m_LastRoadPos += m_RoadOffset;
+				break;
+			}
+		}
     }
 }
