@@ -49,6 +49,8 @@ public class Boss_UFO : BaseAI , BaseHealth<int>
 
 		m_StateQueue [0] = BehaviourStates.e_Idle;
 		m_StateQueue [1] = BehaviourStates.e_Attack;
+
+		ScoreIncrease = 1000000;
 	}
 	
 	// Update is called once per frame
@@ -227,6 +229,9 @@ public class Boss_UFO : BaseAI , BaseHealth<int>
 		if(Health <= 0)
 		{
 			m_StateQueue[1] = BehaviourStates.e_Death;
+			
+			m_GameEventManager.ReceiveEvent(GameEvent.e_EnemyKilled, gameObject, ScoreIncrease);
+
 			ChangeState();
 		}
 	}

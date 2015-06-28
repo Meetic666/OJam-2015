@@ -27,6 +27,12 @@ public class BaseAI : MonoBehaviour
 		set;
 	}
 
+	public int ScoreIncrease
+	{
+		get;
+		set;
+	}
+
 	protected GameEventManager m_GameEventManager;
 	
 	public GameObject m_DeathParticlesPrefab;

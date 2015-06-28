@@ -105,6 +105,22 @@ public class GameEventManager : MonoBehaviour
 		if(!m_GamePaused && (m_CurrentState == GameState.e_GamePart1 || m_CurrentState == GameState.e_GamePart2))
 		{
 			m_PlayerScore.IncreaseScore((uint)score);
+
+			BaseAI enemy = target.GetComponent<BaseAI>();
+
+			// TODO: achievements !!!
+			/*if(enemy is Pelican)
+			{
+
+			}
+			else if(enemy is Mini_UFO)
+			{
+				
+			}
+			else if(enemy is Boss_UFO)
+			{
+				
+			}*/
 		}
 	}
 

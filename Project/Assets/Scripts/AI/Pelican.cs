@@ -25,6 +25,8 @@ public class Pelican : BaseAI , BaseHealth<int>
 		MinDist2Player = 0;
 
 		m_OriginalYpos = transform.position.y;
+
+		ScoreIncrease = 100;
 	}
 	
 	// Update is called once per frame
@@ -87,6 +89,8 @@ public class Pelican : BaseAI , BaseHealth<int>
 		{
 			Instantiate (m_DeathParticlesPrefab, transform.position, Quaternion.identity);
 		}
+		
+		m_GameEventManager.ReceiveEvent(GameEvent.e_EnemyKilled, gameObject, ScoreIncrease);
 
 		gameObject.SetActive (false);
 	}

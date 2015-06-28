@@ -30,6 +30,8 @@ public class Mini_UFO : BaseAI , BaseHealth<int>
 		
 		m_OriginalYpos = transform.position.y;
 		m_AtkCoolDownTimer = m_AtkCoolDown;
+
+		ScoreIncrease = 2500;
 	}
 	
 	// Update is called once per frame
@@ -93,7 +95,9 @@ public class Mini_UFO : BaseAI , BaseHealth<int>
 		if(m_DeathParticlesPrefab != null)
 		{
 			Instantiate (m_DeathParticlesPrefab, transform.position, Quaternion.identity);
-        }
+		}
+		
+		m_GameEventManager.ReceiveEvent(GameEvent.e_EnemyKilled, gameObject, ScoreIncrease);
 		
 		gameObject.SetActive (false);
 	}
