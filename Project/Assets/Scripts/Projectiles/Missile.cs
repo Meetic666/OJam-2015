@@ -16,7 +16,7 @@ public class Missile : MonoBehaviour
 
 	void Start()
 	{
-		Target = GameObject.Find("Target");
+		//Target = GameObject.Find("Target");
 	}
 	
 	// Update is called once per frame
