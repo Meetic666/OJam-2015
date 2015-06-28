@@ -64,8 +64,6 @@ public class Boss_UFO : BaseAI , BaseHealth<int>
 	// Update is called once per frame
 	void Update () 
 	{
-		Debug.Log (m_StateQueue [0].ToString() + " " + m_StateQueue [1].ToString ());
-
 		RunState (m_StateQueue [0]);
 		m_DelayBetweenStatesTimer -= Time.deltaTime;
 
@@ -265,7 +263,12 @@ public class Boss_UFO : BaseAI , BaseHealth<int>
 				m_StateQueue[1] = BehaviourStates.e_Death;
 				
 				m_GameEventManager.ReceiveEvent(GameEvent.e_EnemyKilled, gameObject, ScoreIncrease);
-				
+
+				if(m_DeathSound != null)
+				{
+					Instantiate (m_DeathSound, transform.position, Quaternion.identity);
+				}
+
 				ChangeState();
 			}
 		}

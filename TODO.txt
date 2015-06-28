@@ -1,10 +1,7 @@
 Quentin
-* Score
-* Health
-* Cars / Trucks / People exploding // Effects done for gore, need actual functionality
-* Explosions // Effects done, need functionality
-* Event manager
-* Menu system
+* Score -> need score decrease for blowing up trucks !!!
+* Cars / Trucks // Effects done for gore, need actual functionality + achievements !!!
+* Event manager -> needs to hook up cars exploding
 
 
 Jason

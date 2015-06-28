@@ -107,6 +107,11 @@ public class Pelican : BaseAI , BaseHealth<int>
 		
 		m_GameEventManager.ReceiveEvent(GameEvent.e_EnemyKilled, gameObject, ScoreIncrease);
 
+		if(m_DeathSound != null)
+		{
+			Instantiate (m_DeathSound, transform.position, Quaternion.identity);
+		}
+
 		gameObject.SetActive (false);
 	}
 

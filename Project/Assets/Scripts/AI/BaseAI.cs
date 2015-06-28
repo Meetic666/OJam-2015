@@ -37,6 +37,8 @@ public class BaseAI : MonoBehaviour
 	
 	public GameObject m_DeathParticlesPrefab;
 
+	public GameObject m_DeathSound;
+
 	void Awake()
 	{
 		Health = 1;

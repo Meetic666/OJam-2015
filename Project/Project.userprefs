@@ -1,15 +1,15 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MenuSystem\MenuManager.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\AI\Boss_UFO.cs">
     <Files>
       <File FileName="Assets\Scripts\GameData\BaseHealth.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\AI\Pelican.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\AI\Mini_UFO.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\AI\Pelican.cs" Line="110" Column="3" />
+      <File FileName="Assets\Scripts\AI\Mini_UFO.cs" Line="107" Column="4" />
       <File FileName="Assets\Scripts\Movement\PlayerMovement.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\AI\BaseAI.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\AI\BaseAI.cs" Line="38" Column="14" />
       <File FileName="Assets\Scripts\GameData\HealthManager.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\GameManagement\GameEventManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MenuSystem\MenuManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MenuSystem\MenuManager.cs" Line="44" Column="33" />
       <File FileName="Assets\Scripts\GameData\ScoreManager.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Camera\CameraController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Weapons\PlayerWeapon.cs" Line="1" Column="1" />
@@ -20,15 +20,25 @@
       <File FileName="Assets\Scripts\Buildings\SpawnBuildings.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Explosion\Explosion.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\GameData\AchievementsManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MenuSystem\Button.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MenuSystem\Button.cs" Line="13" Column="15" />
       <File FileName="Assets\Scripts\MenuSystem\AchievementMenu.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MenuSystem\LeaderboardMenu.cs" Line="44" Column="16" />
-      <File FileName="Assets\Scripts\AI\Boss_UFO.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MenuSystem\LeaderboardMenu.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\AI\Boss_UFO.cs" Line="270" Column="6" />
       <File FileName="e:\Projects\OJam 2015 Working Copy 2\Project\Assets\BrainCloudClient\src\BrainCloud\Client\BrainCloud\BrainCloudAsyncMatch.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
-        <State expanded="True" selected="True" />
+        <State expanded="True">
+          <Node name="Assembly-CSharp" expanded="True">
+            <Node name="Scripts" expanded="True">
+              <Node name="AI" expanded="True">
+                <Node name="Boss_UFO.cs" selected="True" />
+              </Node>
+              <Node name="GameData" expanded="True" />
+              <Node name="MenuSystem" expanded="True" />
+            </Node>
+          </Node>
+        </State>
       </Pad>
       <Pad Id="MonoDevelop.Debugger.WatchPad">
         <State />
