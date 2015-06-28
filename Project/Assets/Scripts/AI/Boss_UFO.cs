@@ -167,14 +167,17 @@ public class Boss_UFO : BaseAI
 			if(rand > 3)
 			{
 				m_StateQueue[1] = BehaviourStates.e_Attack;
+				m_DelayBetweenStatesTimer = m_DelayBetweenStates * m_PatienceMultiplier;
 			}
 			else if(rand > 1)
 			{
 				m_StateQueue[1] = BehaviourStates.e_SpecialOne;
+				m_DelayBetweenStatesTimer = m_DelayBetweenStates * m_PatienceMultiplier;
 			}
 			else
 			{
 				m_StateQueue[1] = BehaviourStates.e_Valnerable;
+				m_DelayBetweenStatesTimer = (m_DelayBetweenStates /2) * m_PatienceMultiplier;
 			}
 		}
 
@@ -199,8 +202,6 @@ public class Boss_UFO : BaseAI
 		default:
 			break;
 		}
-
-		m_DelayBetweenStatesTimer = m_DelayBetweenStates * m_PatienceMultiplier;
 
 		m_StateQueue[0] = m_StateQueue[1];
 		m_StateQueue [1] = BehaviourStates.e_Idle;

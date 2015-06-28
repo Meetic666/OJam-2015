@@ -7,6 +7,8 @@ public class Pelican : BaseAI
 	public float m_SinWaveDist;
 	public float m_SeperationMul;
 
+	public GameObject m_Player;
+
 	float m_OriginalYpos;
 
 	//Temp variables for quick changes
@@ -39,6 +41,7 @@ public class Pelican : BaseAI
 		}
 		else
 		{
+			m_OriginalYpos += (m_Player.transform.position.y - m_OriginalYpos) * Time.deltaTime;
 			newPos.y += (m_OriginalYpos - newPos.y) * Time.deltaTime;
 		}
 
@@ -49,13 +52,22 @@ public class Pelican : BaseAI
 	Vector3 CalcSeperation()
 	{
 		Vector3 AveragePosition = Vector3.zero;
+		float averageHeight = 0.0f;
 
 		foreach(GameObject obstacle in m_Obstacles)
 		{
 			AveragePosition += obstacle.transform.position;
+			BoxCollider obstacleCollider = obstacle.GetComponent<BoxCollider>();
+			if(obstacleCollider != null)
+			{
+				averageHeight += obstacle.GetComponent<BoxCollider>().bounds.size.y;
+			}
 		}
 
 		AveragePosition /= m_Obstacles.Count;
+		averageHeight /= m_Obstacles.Count;
+
+		AveragePosition.y += averageHeight;
 
 		return AveragePosition;
 	}
@@ -76,7 +88,7 @@ public class Pelican : BaseAI
 
 	void OnTriggerEnter(Collider other)
 	{
-		if(other.tag != "Wall")
+		if(other.tag != "Wall" && other.tag != "Player")
 		{
 			m_Obstacles.Add(other.gameObject);
 		}
@@ -84,7 +96,7 @@ public class Pelican : BaseAI
 
 	void OnTriggerExit(Collider other)
 	{
-		if(other.tag != "Wall")
+		if(other.tag != "Wall" && other.tag != "Player")
 		{
 			m_Obstacles.Remove(other.gameObject);
 		}
