@@ -38,10 +38,10 @@ public class SpawnBuildings : MonoBehaviour {
         else
         {
             //Spawn buildings to start
-            for (int i = 0; i < 30; i++ )
+            /*for (int i = 0; i < 30; i++ )
             {
                 SpawnBuilding();
-            }
+            }*/
         }
 
         index = 0;
@@ -90,12 +90,12 @@ public class SpawnBuildings : MonoBehaviour {
             }
         }
 
-        m_Timer -= Time.deltaTime;
+        /*m_Timer -= Time.deltaTime;
         if (m_Timer < 0f)
         {
             m_Timer = TIMER;
             SpawnBuilding();
-        }
+        }*/
     }
 
     void SpawnBuilding()
@@ -113,14 +113,14 @@ public class SpawnBuildings : MonoBehaviour {
         {
             m_LastBuildingPosLeft += building.transform.localScale.x * 0.5f + Random.Range(3f, 10f);
             float dist = 30f + building.transform.localScale.z * 0.25f;
-            building.transform.position = new Vector3(side * dist * 2 - dist, building.transform.localScale.y * 0.5f - 15f, m_LastBuildingPosLeft);
+			building.transform.position = new Vector3(side * dist * 2 - dist, (building.GetComponent<BoxCollider>().bounds.min.y + building.GetComponent<BoxCollider>().bounds.max.y) * 0.5f, m_LastBuildingPosLeft);
             m_LastBuildingPosLeft += building.transform.localScale.x * 0.5f;
         }
         else
         {
             m_LastBuildingPosRight += building.transform.localScale.x * 0.5f + Random.Range(2f, 10f);
             float dist = 30f + building.transform.localScale.z * 0.25f;
-            building.transform.position = new Vector3(side * dist * 2 - dist, building.transform.localScale.y * 0.5f - 17f, m_LastBuildingPosRight);
+			building.transform.position = new Vector3(side * dist * 2 - dist, (building.GetComponent<BoxCollider>().bounds.min.y + building.GetComponent<BoxCollider>().bounds.max.y) * 0.5f, m_LastBuildingPosRight);
             m_LastBuildingPosRight += building.transform.localScale.x * 0.5f;
         }
 
