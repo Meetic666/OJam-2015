@@ -19,7 +19,7 @@ X Random level
 
 Thomas
 * Assets:
-    - Jet
+    - Jet (done?)
     - Person
     - Car
     - Truck
