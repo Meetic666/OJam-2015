@@ -249,8 +249,8 @@ public class Boss_UFO : BaseAI , BaseHealth<int>
 
 		int rand = (int)Random.Range (0, 2);
 
-		projectile.transform.position = m_Turrets [rand % 2].transform.position;
-		projectile.transform.eulerAngles = (m_Turrets [rand % 2].transform.position - transform.position).normalized;
+		projectile.transform.position = m_Turrets [rand % 2].transform.position + transform.forward;
+		projectile.transform.eulerAngles = (m_Turrets [rand % 2].transform.forward);
 
 		m_CurrentShotsFired++;
 	}

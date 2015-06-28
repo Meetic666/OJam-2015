@@ -32,7 +32,7 @@ public class Weapon : MonoBehaviour
     {
     }
 
-    public void Fire()
+    public void Fire(Vector3 startPos)
     {
         if (CanFire())
         {
@@ -43,14 +43,14 @@ public class Weapon : MonoBehaviour
             {
                 for (int i = 0; i < numberFired; i++)
                 {
-                    SpawnProjectile();
+                    SpawnProjectile(startPos);
                 }
             }
             else
             {
-                SpawnProjectile();
-            }
-        }
+				SpawnProjectile(startPos);
+			}
+		}
 
 		if(m_WeaponSound != null && !m_WeaponSound.isPlaying)
 		{
@@ -66,16 +66,17 @@ public class Weapon : MonoBehaviour
 		}
 	}
 
-    void SpawnProjectile()
+    void SpawnProjectile(Vector3 startPos)
     {
+
         Vector3 offset = Vector3.zero;
         if (RandomOffset > 0f)
         {
 			offset += transform.up * Random.Range(-RandomOffset, RandomOffset);
 			offset += transform.right * Random.Range(-RandomOffset, RandomOffset);
         }
-        Vector3 spawnPos = transform.position + transform.forward * 6f + offset;
-        GameObject newProjectile = (GameObject) GameObject.Instantiate(m_Projectile, spawnPos, Quaternion.FromToRotation(Vector3.forward, (spawnPos - transform.position).normalized));
+		Vector3 spawnPos = transform.position + startPos * 6f + offset;
+        GameObject newProjectile = (GameObject) GameObject.Instantiate(m_Projectile, spawnPos, Quaternion.identity);
 		newProjectile.tag = tag;
 		newProjectile.layer = gameObject.layer;
     }

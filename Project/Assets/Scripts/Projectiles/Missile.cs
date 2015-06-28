@@ -16,12 +16,19 @@ public class Missile : MonoBehaviour
 
 	void Start()
 	{
-		//Target = GameObject.Find("Target");
+		RaycastHit hit; 
+		Physics.SphereCast (transform.position, 1, transform.forward, out hit, 1 << 10);
+
+		if(hit.collider != null && hit.collider.tag != "Wall" && hit.collider.tag != "Missle" && hit.collider.tag != "Player")
+		{
+			Target = hit.collider.gameObject;
+		}
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
+		//UnityEditor.EditorApplication.isPaused = true;
 		transform.position += transform.forward * m_Speed * Time.deltaTime;
 
 		if(Target != null)
@@ -31,7 +38,11 @@ public class Missile : MonoBehaviour
 
 			float distanceToTarget = targetDirection.magnitude;
 
-			transform.forward = Vector3.Slerp (transform.forward, targetDirection, m_RotationSpeed * Time.deltaTime);
+			if(Target != null)
+			{
+				//transform.forward = Vector3.Slerp (transform.forward, targetDirection, m_RotationSpeed * Time.deltaTime);
+			}
+
 		}
 	}
 
