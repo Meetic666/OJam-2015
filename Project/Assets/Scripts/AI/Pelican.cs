@@ -10,6 +10,7 @@ public class Pelican : BaseAI , BaseHealth<int>
 	GameObject m_Player;
 
 	float m_OriginalYpos;
+	float m_Distance2Player;
 
 	//Temp variables for quick changes
 	public float m_MovementSpeed;
@@ -28,6 +29,8 @@ public class Pelican : BaseAI , BaseHealth<int>
 
 		m_Player = FindObjectOfType<PlayerMovement> ().gameObject;
 
+		m_Distance2Player = Vector3.Distance (m_Player.transform.position, transform.position);
+
 		ScoreIncrease = 100;
 	}
 	
@@ -37,8 +40,11 @@ public class Pelican : BaseAI , BaseHealth<int>
 		//Movement
 		Vector3 newPos = transform.position;
 
-		newPos.z += ((m_Player.transform.position.z + MinDist2Player) - newPos.z) * Time.deltaTime * MovementSpeed;
-		newPos.x += Mathf.Sin (Time.time * MovementSpeed) * m_SinWaveDist;
+		//newPos.z += ((m_Player.transform.position.z + MinDist2Player) - newPos.z) * Time.deltaTime * MovementSpeed;
+		newPos.z = m_Player.transform.position.z + m_Distance2Player;
+		m_Distance2Player -= Time.deltaTime * MovementSpeed;
+
+		newPos.x += Mathf.Sin (Time.time * (MovementSpeed / 4)) * m_SinWaveDist;
 
 		//if(m_Obstacles.Count > 0)
 		{
@@ -54,6 +60,11 @@ public class Pelican : BaseAI , BaseHealth<int>
 		}
 
 		transform.position = Vector3.MoveTowards (transform.position, newPos, MovementSpeed);
+
+		if(transform.position.z < m_Player.transform.position.z)
+		{
+			gameObject.SetActive(false);
+		}
 	}
 
 	//Seperation from obstacles
