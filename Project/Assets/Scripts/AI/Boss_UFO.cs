@@ -9,9 +9,10 @@ public class Boss_UFO : BaseAI
 		e_Idle = 0,
 		e_Attack,
 		e_Valnerable,
-		e_SpecialOne
+		e_SpecialOne,
+		e_Death
 	}
-	BehaviourStates m_CurrentState = BehaviourStates.e_Idle;
+	BehaviourStates[] m_StateQueue = new BehaviourStates [2];
 
 	public float m_DelayBetweenStates;
 	float m_DelayBetweenStatesTimer;
@@ -22,131 +23,198 @@ public class Boss_UFO : BaseAI
 	public float m_DelayBetweenShots;
 	float m_DelayBetweenShotsTimer = 0;
 
-	public float m_LiftSpeed;
+	bool m_MinionsCleared = true;
+	public float m_ThrowingForce;
+	public Vector3 m_LiftSpeed;
 	public float m_MinDistance2Boss;
 	public int m_ShotsPerBurst;
 	public GameObject m_Player;
+	public GameObject[] m_Turrets = new GameObject[2];
 
-	float m_PatienceMultiplier;
+	float m_PatienceMultiplier = 1;
 	int m_CurrentShotsFired = 0;
 
 	//Temp variables 
 	public int m_Health;
+	public float m_MinDist2Player;
+	public float m_MovementSpeed;
 
 	// Use this for initialization
 	void Start () 
 	{
 		Health = m_Health;
+		MinDist2Player = m_MinDist2Player;
+		MovementSpeed = m_MovementSpeed;
 		m_DelayBetweenStatesTimer = m_DelayBetweenStates;
+
+		m_StateQueue [0] = BehaviourStates.e_Idle;
+		m_StateQueue [1] = BehaviourStates.e_Attack;
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		switch(m_CurrentState)
+		RunState (m_StateQueue [0]);
+		m_DelayBetweenStatesTimer -= Time.deltaTime;
+
+		if(m_DelayBetweenStatesTimer <= 0)
 		{
-			case BehaviourStates.e_Attack:
+			if(m_StateQueue[1] != BehaviourStates.e_Valnerable && m_StateQueue[0] != BehaviourStates.e_Idle)
 			{
-				if(m_DelayBetweenShotsTimer <= 0)
-				{
-					ShootTurrets();
-					m_CurrentShotsFired++;
-					m_DelayBetweenShotsTimer = m_DelayBetweenShots;
-				}
-				else
-				{
-					m_DelayBetweenShotsTimer = m_DelayBetweenShots;
-				}
-
-				if(m_CurrentShotsFired == m_ShotsPerBurst)
-				{
-					int rand = Random.Range(0, 2);
-
-					if(rand > 0)
-					{
-						ChangeStateTo(BehaviourStates.e_SpecialOne);
-					}
-					else
-					{
-						ChangeStateTo(BehaviourStates.e_Attack);
-					}
-					m_CurrentShotsFired = 0;
-				}
-				break;
+				RunState(m_StateQueue[1]);
 			}
-		
+		}
+	}
+
+	void RunState(BehaviourStates state)
+	{
+		switch(state)
+		{
+		case BehaviourStates.e_Idle:
+		{
+			if(MinDist2Player <= Vector3.Distance(m_Player.transform.position + 
+			                                      ((transform.position - m_Player.transform.position).normalized * MinDist2Player), 
+			                                      transform.position))
+			{
+				Vector3 newPos = transform.position;
+					
+				newPos += (m_Player.transform.position - transform.position).normalized * Time.deltaTime * MovementSpeed;
+				newPos.y = transform.position.y;
+
+				transform.position = newPos;
+			}
+			else if (m_MinionsCleared)
+			{
+				ChangeState();
+			}
+
+			break;
+		}
+		case BehaviourStates.e_Attack:
+		{
+			if(m_DelayBetweenShotsTimer <= 0)
+			{
+				ShootTurrets();
+				m_DelayBetweenShotsTimer = m_DelayBetweenShots;
+			}
+			else
+			{
+				m_DelayBetweenShotsTimer -= Time.deltaTime;
+			}
+
+			if(m_CurrentShotsFired >= m_ShotsPerBurst)
+			{
+				ChangeState();
+			}
+
+			break;
+		}
+			
 		case BehaviourStates.e_SpecialOne:
 		{
-			/*RaycastHit hit;
+			RaycastHit[] hit;
 
-			if(Physics.SphereCastAll(transform.position, 2 /* Temp number , -transform.up, transform.position.y))
+			hit = Physics.SphereCastAll(transform.position, 5 /* Temp number */, -transform.up, 10);
+				
+			foreach(RaycastHit obstacle in hit)
 			{
-				if(hit.collider.tag == "Movable")
+				if(obstacle.collider.tag == "Movable")
 				{
 					//Tell the object to stop moving
 
-					m_Debris.Add(hit.collider.gameObject);
+					m_Debris.Add(obstacle.collider.gameObject);
 				}
-			}*/
-
-
+			}
+			
 			foreach(GameObject debris in m_Debris)
 			{
 				float distance2Boss = (transform.position - debris.transform.position).magnitude;
-
+				
 				if(distance2Boss <= m_MinDistance2Boss)
 				{
 					//Throw objects at player when they reach the max height
 					Rigidbody debrisPhysics = debris.GetComponent<Rigidbody>();
 					debrisPhysics.useGravity = true;
-					debrisPhysics.AddForce(m_Player.transform.position - debris.transform.position, ForceMode.Impulse);
+					Vector3 force = (m_Player.transform.position - debris.transform.position).normalized * m_ThrowingForce;
+					debrisPhysics.AddForce(force, ForceMode.Impulse);
+
 				}
 				else
 				{
 					//Lift objects in m_Debris
-					//debris.transform.position += m_LiftSpeed;
+					debris.transform.position += m_LiftSpeed;
+				}
+				m_Debris.Remove(debris);
+				if(m_Debris.Count <= 0)
+				{
+					break;
 				}
 			}
-
+			
 			break;
 		}
-
+			
 		default:
 			break;
 		}
 	}
 
-	void ChangeStateTo(BehaviourStates newState)
+	void ChangeState()
 	{
-		//Add effects here for when the Boss changes states
-		switch(newState)
+		if(m_StateQueue[1] == BehaviourStates.e_Idle)
 		{
-			case BehaviourStates.e_Idle:
+			int rand = (int)Random.Range(0, 6);
+			if(rand > 3)
 			{
-				break;
+				m_StateQueue[1] = BehaviourStates.e_Attack;
 			}
+			else if(rand > 1)
+			{
+				m_StateQueue[1] = BehaviourStates.e_SpecialOne;
+			}
+			else
+			{
+				m_StateQueue[1] = BehaviourStates.e_Valnerable;
+			}
+		}
+
+		//Reset values of state that just ended
+		switch(m_StateQueue[0])
+		{
 			case BehaviourStates.e_Attack:
 			{
+				m_CurrentShotsFired = 0;
+
 				break;
 			}
 			case BehaviourStates.e_SpecialOne:
 			{
-				break;
-			}
-			case BehaviourStates.e_Valnerable:
-			{
-				//Reveal Core to player
+				foreach(GameObject debris in m_Debris)
+				{
+					m_Debris.Remove(debris);
+				}
+
 				break;
 			}
 		default:
 			break;
 		}
 
-		m_CurrentState = newState;
+		m_DelayBetweenStatesTimer = m_DelayBetweenStates * m_PatienceMultiplier;
+
+		m_StateQueue[0] = m_StateQueue[1];
+		m_StateQueue [1] = BehaviourStates.e_Idle;
 	}
 
 	void ShootTurrets()
 	{
+		GameObject projectile = (GameObject)Instantiate (m_Projectile);
 
+		int rand = (int)Random.Range (0, 2);
+
+		projectile.transform.position = m_Turrets [rand % 2].transform.position;
+		projectile.transform.eulerAngles = (m_Turrets [rand % 2].transform.position - transform.position).normalized;
+
+		m_CurrentShotsFired++;
 	}
 }
