@@ -24,11 +24,13 @@ public class Boss_UFO : BaseAI , BaseHealth<int>
 	float m_DelayBetweenShotsTimer = 0;
 
 	bool m_MinionsCleared = true;
+
+	public GameObject m_TractorBeam;
 	public float m_ThrowingForce;
 	public Vector3 m_LiftSpeed;
 	public float m_MinDistance2Boss;
 	public int m_ShotsPerBurst;
-	public GameObject m_Player;
+	GameObject m_Player;
 	public GameObject[] m_Turrets = new GameObject[2];
 
 	float m_PatienceMultiplier = 1;
@@ -50,6 +52,8 @@ public class Boss_UFO : BaseAI , BaseHealth<int>
 		m_StateQueue [0] = BehaviourStates.e_Idle;
 		m_StateQueue [1] = BehaviourStates.e_Attack;
 
+		m_Player = FindObjectOfType<PlayerMovement> ().gameObject;
+
 		ScoreIncrease = 1000000;
 	}
 	
@@ -65,6 +69,15 @@ public class Boss_UFO : BaseAI , BaseHealth<int>
 			{
 				RunState(m_StateQueue[1]);
 			}
+		}
+
+		if(m_StateQueue[0] != BehaviourStates.e_Idle && m_StateQueue[0] != BehaviourStates.e_Death)
+		{
+			Vector3 newPos = transform.position;
+
+			newPos.z = m_Player.transform.position.z + MinDist2Player;
+
+			transform.position = newPos;
 		}
 	}
 
@@ -89,7 +102,7 @@ public class Boss_UFO : BaseAI , BaseHealth<int>
 			{
 				ChangeState();
 
-				m_GameEventManager.ReceiveEvent(GameEvent.e_EngagedBoss, null, 0);
+				//m_GameEventManager.ReceiveEvent(GameEvent.e_EngagedBoss, null, 0);
 			}
 
 			break;
@@ -176,6 +189,7 @@ public class Boss_UFO : BaseAI , BaseHealth<int>
 			}
 			else if(rand > 1)
 			{
+				m_TractorBeam.SetActive(true);
 				m_StateQueue[1] = BehaviourStates.e_SpecialOne;
 				m_DelayBetweenStatesTimer = m_DelayBetweenStates * m_PatienceMultiplier;
 			}
@@ -201,6 +215,8 @@ public class Boss_UFO : BaseAI , BaseHealth<int>
 				{
 					m_Debris.Remove(debris);
 				}
+
+				m_TractorBeam.SetActive(false);
 
 				break;
 			}

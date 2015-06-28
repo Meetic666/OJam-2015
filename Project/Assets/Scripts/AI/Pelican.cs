@@ -7,7 +7,7 @@ public class Pelican : BaseAI , BaseHealth<int>
 	public float m_SinWaveDist;
 	public float m_SeperationMul;
 
-	public GameObject m_Player;
+	GameObject m_Player;
 
 	float m_OriginalYpos;
 
@@ -26,6 +26,8 @@ public class Pelican : BaseAI , BaseHealth<int>
 
 		m_OriginalYpos = transform.position.y;
 
+		m_Player = FindObjectOfType<PlayerMovement> ().gameObject;
+
 		ScoreIncrease = 100;
 	}
 	
@@ -35,7 +37,7 @@ public class Pelican : BaseAI , BaseHealth<int>
 		//Movement
 		Vector3 newPos = transform.position;
 
-		newPos.z += (MinDist2Player - newPos.z) * Time.deltaTime;
+		newPos.z += ((m_Player.transform.position.z + MinDist2Player) - newPos.z) * Time.deltaTime * MovementSpeed;
 		newPos.x += Mathf.Sin (Time.time * MovementSpeed) * m_SinWaveDist;
 
 		if(m_Obstacles.Count > 0)
@@ -47,6 +49,8 @@ public class Pelican : BaseAI , BaseHealth<int>
 		{
 			m_OriginalYpos += (m_Player.transform.position.y - m_OriginalYpos) * Time.deltaTime;
 			newPos.y += (m_OriginalYpos - newPos.y) * Time.deltaTime;
+
+			newPos += (newPos - transform.position).normalized * Time.deltaTime * MovementSpeed;
 		}
 
 		transform.position = Vector3.MoveTowards (transform.position, newPos, MovementSpeed);

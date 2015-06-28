@@ -7,7 +7,7 @@ public class Mini_UFO : BaseAI , BaseHealth<int>
 	public float m_SinWaveDist;
 	public float m_SeperationMul;
 	public GameObject m_Projectile;
-	public GameObject m_Player;
+	GameObject m_Player;
 	
 	float m_OriginalYpos;
 
@@ -31,6 +31,8 @@ public class Mini_UFO : BaseAI , BaseHealth<int>
 		m_OriginalYpos = transform.position.y;
 		m_AtkCoolDownTimer = m_AtkCoolDown;
 
+		m_Player = FindObjectOfType<PlayerMovement> ().gameObject;
+
 		ScoreIncrease = 2500;
 	}
 	
@@ -39,8 +41,8 @@ public class Mini_UFO : BaseAI , BaseHealth<int>
 	{
 		//Movement
 		Vector3 newPos = transform.position;
-		
-		newPos.z += (MinDist2Player - newPos.z) * Time.deltaTime;
+
+		newPos.z += ((m_Player.transform.position.z + MinDist2Player) - newPos.z) * Time.deltaTime * MovementSpeed;
 		newPos.x += Mathf.Sin (Time.time * MovementSpeed) * m_SinWaveDist;
 		
 		if(m_Obstacles.Count > 0)
@@ -114,18 +116,18 @@ public class Mini_UFO : BaseAI , BaseHealth<int>
 
 	void OnTriggerEnter(Collider other)
 	{
-		if(other.tag != "Wall" || other.tag != "Enemy" || other.tag != "Player")
+		/*if(other.tag != "Wall" && other.tag != "Enemy" && other.tag != "Player" && other.tag != "Projectile")
 		{
-			m_Obstacles.Add(other.gameObject);
-		}
+			//m_Obstacles.Add(other.gameObject);
+		}*/
 	}
 	
 	void OnTriggerExit(Collider other)
 	{
-		if(other.tag != "Wall" || other.tag != "Enemy" || other.tag != "Player")
+		/*if(other.tag != "Wall" && other.tag != "Enemy" && other.tag != "Player" && other.tag != "Projectile")
 		{
-			m_Obstacles.Remove(other.gameObject);
-		}
+			//m_Obstacles.Remove(other.gameObject);
+		}*/
 	}
 
 }
