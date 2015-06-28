@@ -69,6 +69,9 @@ public class BirdSpawner : MonoBehaviour
 			}
 		}
 
-		transform.position = m_Player.transform.position - (transform.forward * 300);
+		if(m_Player != null)
+		{
+			transform.position = m_Player.transform.position - (transform.forward * 300);
+		}
 	}
 }

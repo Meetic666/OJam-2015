@@ -79,7 +79,10 @@ public class Boss_UFO : BaseAI , BaseHealth<int>
 		{
 			Vector3 newPos = transform.position;
 
-			newPos.z = m_Player.transform.position.z + MinDist2Player;
+			if(m_Player != null)
+			{
+				newPos.z = m_Player.transform.position.z + MinDist2Player;
+			}
 
 			transform.position = newPos;
 		}
@@ -91,7 +94,7 @@ public class Boss_UFO : BaseAI , BaseHealth<int>
 		{
 		case BehaviourStates.e_Idle:
 		{
-			if(MinDist2Player <= Vector3.Distance(m_Player.transform.position + 
+			if(m_Player != null && MinDist2Player <= Vector3.Distance(m_Player.transform.position + 
 			                                      ((transform.position - m_Player.transform.position).normalized * MinDist2Player), 
 			                                      transform.position))
 			{
@@ -155,7 +158,7 @@ public class Boss_UFO : BaseAI , BaseHealth<int>
 			{
 				float distance2Boss = (transform.position - debris.transform.position).magnitude;
 				
-				if(distance2Boss <= m_MinDistance2Boss)
+				if(m_Player != null && distance2Boss <= m_MinDistance2Boss)
 				{
 					//Throw objects at player when they reach the max height
 					Rigidbody debrisPhysics = debris.GetComponent<Rigidbody>();

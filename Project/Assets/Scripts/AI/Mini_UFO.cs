@@ -39,10 +39,15 @@ public class Mini_UFO : BaseAI , BaseHealth<int>
 	// Update is called once per frame
 	void Update () 
 	{
+
 		//Movement
 		Vector3 newPos = transform.position;
 
-		newPos.z += ((m_Player.transform.position.z + MinDist2Player) - newPos.z) * Time.deltaTime * MovementSpeed;
+		if(m_Player != null)
+		{
+			newPos.z += ((m_Player.transform.position.z + MinDist2Player) - newPos.z) * Time.deltaTime * MovementSpeed;
+		}
+
 		newPos.x += Mathf.Sin (Time.time * MovementSpeed) * m_SinWaveDist;
 		
 		if(m_Obstacles.Count > 0)
@@ -86,10 +91,13 @@ public class Mini_UFO : BaseAI , BaseHealth<int>
 	
 	void Attack()
 	{
+		if(m_Player != null)
+		{
 		//Launch projectile at player
 		GameObject projectile = (GameObject)Instantiate (m_Projectile);
 		projectile.transform.position = transform.position + transform.forward;
 		projectile.transform.forward = m_Player.transform.position - transform.position;
+		}
 	}
 	
 	void Death()

@@ -41,7 +41,11 @@ public class Pelican : BaseAI , BaseHealth<int>
 		Vector3 newPos = transform.position;
 
 		//newPos.z += ((m_Player.transform.position.z + MinDist2Player) - newPos.z) * Time.deltaTime * MovementSpeed;
-		newPos.z = m_Player.transform.position.z + m_Distance2Player;
+		if(m_Player != null)
+		{
+			newPos.z = m_Player.transform.position.z + m_Distance2Player;
+		}
+		
 		m_Distance2Player -= Time.deltaTime * MovementSpeed;
 
 		newPos.x += Mathf.Sin (Time.time * (MovementSpeed / 4)) * m_SinWaveDist;
@@ -53,7 +57,11 @@ public class Pelican : BaseAI , BaseHealth<int>
 		}
 		//else
 		{
-			m_OriginalYpos += (m_Player.transform.position.y - m_OriginalYpos) * Time.deltaTime;
+			if(m_Player != null)
+			{
+				m_OriginalYpos += (m_Player.transform.position.y - m_OriginalYpos) * Time.deltaTime;
+			}
+
 			//newPos.y += (m_OriginalYpos - newPos.y) * Time.deltaTime;
 
 			newPos += (newPos - transform.position).normalized * Time.deltaTime * MovementSpeed;
@@ -61,7 +69,7 @@ public class Pelican : BaseAI , BaseHealth<int>
 
 		transform.position = Vector3.MoveTowards (transform.position, newPos, MovementSpeed);
 
-		if(transform.position.z < m_Player.transform.position.z)
+		if(m_Player != null && transform.position.z < m_Player.transform.position.z)
 		{
 			gameObject.SetActive(false);
 		}
