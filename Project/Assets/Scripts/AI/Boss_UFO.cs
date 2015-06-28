@@ -64,6 +64,7 @@ public class Boss_UFO : BaseAI , BaseHealth<int>
 	// Update is called once per frame
 	void Update () 
 	{
+		Debug.Log (m_StateQueue [0].ToString() + " " + m_StateQueue [1].ToString ());
 
 		RunState (m_StateQueue [0]);
 		m_DelayBetweenStatesTimer -= Time.deltaTime;
@@ -234,7 +235,11 @@ public class Boss_UFO : BaseAI , BaseHealth<int>
 		}
 
 		m_StateQueue[0] = m_StateQueue[1];
-		m_StateQueue [1] = BehaviourStates.e_Idle;
+		if(m_StateQueue[0] != BehaviourStates.e_Death)
+		{
+			m_StateQueue [1] = BehaviourStates.e_Idle;
+		}
+
 	}
 
 	void ShootTurrets()
@@ -251,15 +256,18 @@ public class Boss_UFO : BaseAI , BaseHealth<int>
 
 	public void Damage(int dmg)
 	{
-		Health -= dmg;
-		
-		if(Health <= 0)
+		if(m_StateQueue[0] == BehaviourStates.e_Valnerable)
 		{
-			m_StateQueue[1] = BehaviourStates.e_Death;
+			Health -= dmg;
 			
-			m_GameEventManager.ReceiveEvent(GameEvent.e_EnemyKilled, gameObject, ScoreIncrease);
-
-			ChangeState();
+			if(Health <= 0)
+			{
+				m_StateQueue[1] = BehaviourStates.e_Death;
+				
+				m_GameEventManager.ReceiveEvent(GameEvent.e_EnemyKilled, gameObject, ScoreIncrease);
+				
+				ChangeState();
+			}
 		}
 	}
 }
