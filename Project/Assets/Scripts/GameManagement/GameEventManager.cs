@@ -98,9 +98,10 @@ public class GameEventManager : MonoBehaviour
 		Debug.LogError(responseData);
 	}
 	
-	public void SubmitLeaderboardData(int aKills, int aBombHits, int aDeaths)
+	public void SubmitLeaderboardData(string playerName)
 	{
-		BrainCloudWrapper.GetBC().SocialLeaderboardService.PostScoreToLeaderboard("Global Leaderboard", m_PlayerScore.Score, BrainCloudWrapper.GetBC().GetSessionId());
+		BrainCloudWrapper.GetBC().PlayerStateService.UpdatePlayerName(playerName);
+		BrainCloudWrapper.GetBC().SocialLeaderboardService.PostScoreToLeaderboard("Global Leaderboard", m_PlayerScore.Score, "");
 	}
 	////////////////////////////////////////////
 
@@ -429,42 +430,5 @@ public class GameEventManager : MonoBehaviour
 		}
 
 		return achievementUnlocked;
-	}
-
-	[ContextMenu("Move One State")]
-	void MoveOneState()
-	{
-		m_CurrentState = (GameState)((int) m_CurrentState + 1);
-	}
-
-	[ContextMenu("Pause game")]
-	void PauseGame()
-	{
-		ReceiveEvent(GameEvent.e_GamePaused, null, 0);
-	}
-
-	[ContextMenu("Hit player")]
-	void HitPlayer()
-	{
-		m_PlayerHealth.Hit (10.0f);
-	}
-
-	[ContextMenu("Increase Score")]
-	void IncreaseScore()
-	{
-		m_PlayerScore.IncreaseScore(int.MaxValue);
-	}
-
-	[ContextMenu("Decrease Score")]
-	void DecreaseScore()
-	{
-		m_PlayerScore.DecreaseScore(30);
-	}
-
-	[ContextMenu("Unlock true friend")]
-	void UnlockTrueFriend()
-	{
-		m_BirdsShot = 130;
-		UpdateAchievements(AchievementType.e_TrueFriend, 0, m_BirdsShot);
 	}
 }
