@@ -21,6 +21,7 @@ public class GameEventManager : MonoBehaviour
 	bool m_GamePaused = false;
 
 	public HealthManager m_PlayerHealth;
+	public ScoreManager m_PlayerScore;
 
 	public GameState CurrentState
 	{
@@ -68,6 +69,7 @@ public class GameEventManager : MonoBehaviour
 			break;
 
 		case GameEvent.e_CivilianKilled:
+			OnCivilianKilled(target);
 			break;
 
 		case GameEvent.e_PlayerHit:
@@ -106,6 +108,14 @@ public class GameEventManager : MonoBehaviour
 		}
 	}
 
+	void OnCivilianKilled(GameObject target)
+	{
+		if(!m_GamePaused && (m_CurrentState == GameState.e_GamePart1 || m_CurrentState == GameState.e_GamePart2))
+		{
+			// TODO: decrement score
+		}
+	}
+
 	void OnPlayerKilled()
 	{		
 		m_Timer = m_TimeBeforeReset;
@@ -127,5 +137,17 @@ public class GameEventManager : MonoBehaviour
 	void HitPlayer()
 	{
 		m_PlayerHealth.Hit (10.0f);
+	}
+
+	[ContextMenu("Increase Score")]
+	void IncreaseScore()
+	{
+		m_PlayerScore.IncreaseScore(2540);
+	}
+
+	[ContextMenu("Decrease Score")]
+	void DecreaseScore()
+	{
+		m_PlayerScore.DecreaseScore(30);
 	}
 }
