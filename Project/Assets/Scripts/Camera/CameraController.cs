@@ -6,7 +6,7 @@ public class CameraController : MonoBehaviour {
     Transform m_PlayerTrans;
     Rigidbody m_Body;
     float m_ChaseDist = 0f;
-    const float LEPR_SPEED_PRE_DELTA = 3f;
+    const float LEPR_SPEED_PRE_DELTA = 5f;
     const float LEPR_SIDE_SPEED_PRE_DELTA = 3f;
     const float LOOK_LERP_PRE_DELTA = 5f;
 

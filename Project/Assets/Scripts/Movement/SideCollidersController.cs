@@ -4,6 +4,7 @@ using System.Collections;
 public class SideCollidersController : MonoBehaviour
 {
     Transform m_PlayerTrans;
+    public GameObject m_ExplosionPrefab;
 
     // Use this for initialization
     void Start()
@@ -17,5 +18,10 @@ public class SideCollidersController : MonoBehaviour
     void Update()
     {
         transform.position = new Vector3(0f, 0f, m_PlayerTrans.position.z);
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        Instantiate(m_ExplosionPrefab, collision.contacts[0].point, Quaternion.identity);
     }
 }

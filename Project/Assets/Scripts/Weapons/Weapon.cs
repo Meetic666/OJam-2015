@@ -6,6 +6,7 @@ public class Weapon : MonoBehaviour
     public GameObject m_Projectile;
     public float FiringSpeed = 1f;
     public float ShakeOnFire = 1f;
+    public float RandomOffset = 0f;
 
     CameraController m_Camera;
     float m_FiringTimer = -1f;
@@ -35,8 +36,31 @@ public class Weapon : MonoBehaviour
         {
             m_FiringTimer = FiringSpeed;
             m_Camera.Shake(ShakeOnFire);
-            GameObject.Instantiate(m_Projectile, transform.position + transform.forward * 4f, Quaternion.FromToRotation(Vector3.forward, transform.forward));
+            int numberFired = (int)(Time.deltaTime / FiringSpeed);
+            if (numberFired++ > 1)
+            {
+                for (int i = 0; i < numberFired; i++)
+                {
+                    SpawnProjectile();
+                }
+            }
+            else
+            {
+                SpawnProjectile();
+            }
         }
+    }
+
+    void SpawnProjectile()
+    {
+        Vector3 offset = Vector3.zero;
+        if (RandomOffset > 0f)
+        {
+            offset += transform.up * Random.Range(-RandomOffset, RandomOffset);
+            offset += transform.right * Random.Range(-RandomOffset, RandomOffset);
+        }
+        Vector3 spawnPos = transform.position + transform.forward * 5f + offset;
+        GameObject.Instantiate(m_Projectile, spawnPos, Quaternion.FromToRotation(Vector3.forward, (spawnPos - transform.position).normalized));
     }
 
     public bool CanFire()

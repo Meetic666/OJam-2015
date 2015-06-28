@@ -5,7 +5,7 @@ public class PlayerMovement : MonoBehaviour, BaseHealth<int> {
 
     Rigidbody m_Body;
     const float GRAVITY = 10f;
-    const float SPEED = 20f;
+    const float SPEED = 40f;
     const float CONTROL_ACCELERATION = 2.5f;
 
 	GameEventManager m_GameEventManager;
