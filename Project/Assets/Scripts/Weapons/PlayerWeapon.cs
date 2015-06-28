@@ -7,7 +7,7 @@ public class PlayerWeapon : Weapon
     public string FireButton;
 	
 	// Update is called once per frame
-	void Update ()
+	protected override void update ()
     {
         if (Input.GetKey(FireKey) || Input.GetButton(FireButton))
         {

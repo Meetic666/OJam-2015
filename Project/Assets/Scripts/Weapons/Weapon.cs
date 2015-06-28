@@ -18,11 +18,16 @@ public class Weapon : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        if (m_FiringTimer > 0f)
+        update();
+        if (!CanFire())
         {
             m_FiringTimer -= Time.deltaTime;
         }
 	}
+
+    protected virtual void update()
+    {
+    }
 
     public void Fire()
     {
@@ -30,7 +35,7 @@ public class Weapon : MonoBehaviour
         {
             m_FiringTimer = FiringSpeed;
             m_Camera.Shake(ShakeOnFire);
-            GameObject.Instantiate(m_Projectile, transform.position + transform.forward, Quaternion.FromToRotation(Vector3.forward, transform.forward));
+            GameObject.Instantiate(m_Projectile, transform.position + transform.forward * 4f, Quaternion.FromToRotation(Vector3.forward, transform.forward));
         }
     }
 
