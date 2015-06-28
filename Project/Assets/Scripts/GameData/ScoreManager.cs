@@ -11,7 +11,14 @@ public class ScoreManager : MonoBehaviour
 	
 	public void IncreaseScore(uint scoreAmount)
 	{
-		m_Score += scoreAmount;
+		if(m_Score <= uint.MaxValue - scoreAmount)
+		{
+			m_Score += scoreAmount;
+		}
+		else
+        {
+            m_Score = uint.MaxValue;
+        }
 
 		SetUpRenderers();
 	}

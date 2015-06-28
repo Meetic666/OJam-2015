@@ -19,6 +19,8 @@ public class Pelican : BaseAI
 	// Use this for initialization
 	void Start () 
 	{
+		AtkDamage = 5;
+
 		MovementSpeed = m_MovementSpeed;
 		MinDist2Player = 0;
 
@@ -74,14 +76,17 @@ public class Pelican : BaseAI
 
 	void Attack(GameObject player)
 	{
-		//Deal damage to player
+		m_GameEventManager.ReceiveEvent(GameEvent.e_PlayerHit, gameObject);
 
 		Death ();
 	}
 
 	void Death()
 	{
-		//Add effects here for Death
+		if(m_DeathParticlesPrefab != null)
+		{
+			Instantiate (m_DeathParticlesPrefab, transform.position, Quaternion.identity);
+		}
 
 		gameObject.SetActive (false);
 	}

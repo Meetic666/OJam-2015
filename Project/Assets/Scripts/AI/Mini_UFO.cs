@@ -92,7 +92,10 @@ public class Mini_UFO : BaseAI
 	
 	void Death()
 	{
-		//Add effects here for Death
+		if(m_DeathParticlesPrefab != null)
+		{
+			Instantiate (m_DeathParticlesPrefab, transform.position, Quaternion.identity);
+        }
 		
 		gameObject.SetActive (false);
 	}

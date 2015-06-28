@@ -73,7 +73,7 @@ public class GameEventManager : MonoBehaviour
 			break;
 
 		case GameEvent.e_PlayerHit:
-			// TODO: Hook up with projectile's damage
+			OnPlayerHit(target);
 			break;
 
 		case GameEvent.e_PlayerKilled:
@@ -121,6 +121,23 @@ public class GameEventManager : MonoBehaviour
 		m_Timer = m_TimeBeforeReset;
 	}
 
+	void OnPlayerHit(GameObject projectile)
+	{
+		float damage = 0;
+
+		if(projectile.GetComponent<Pelican>())
+		{
+			damage = projectile.GetComponent<Pelican>().AtkDamage;
+		}
+		else if(projectile.GetComponent<Bullet>())
+		{
+			// TODO: get bullet's damage
+			//damage = projectile.GetComponent<Bullet>().
+		}
+
+		m_PlayerHealth.Hit(damage);
+	}
+
 	[ContextMenu("Move One State")]
 	void MoveOneState()
 	{
@@ -142,7 +159,7 @@ public class GameEventManager : MonoBehaviour
 	[ContextMenu("Increase Score")]
 	void IncreaseScore()
 	{
-		m_PlayerScore.IncreaseScore(2540);
+		m_PlayerScore.IncreaseScore(int.MaxValue);
 	}
 
 	[ContextMenu("Decrease Score")]

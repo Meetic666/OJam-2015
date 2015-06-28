@@ -27,8 +27,14 @@ public class BaseAI : MonoBehaviour
 		set;
 	}
 
+	protected GameEventManager m_GameEventManager;
+	
+	public GameObject m_DeathParticlesPrefab;
+
 	void Awake()
 	{
 		Health = 1;
+
+		m_GameEventManager = FindObjectOfType<GameEventManager>();
 	}
 }
