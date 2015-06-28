@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System;
+using LitJson;
 
 public enum GameEvent
 {
@@ -14,6 +17,79 @@ public enum GameEvent
 
 public class GameEventManager : MonoBehaviour 
 {
+	////////////////////////////////////////////
+	// BrainCloud integration code
+	////////////////////////////////////////////
+	
+	private void ReadStatistics()
+	{
+		// Ask brainCloud for statistics
+		BrainCloudWrapper.GetBC().PlayerStatisticsService.ReadAllPlayerStats(StatsSuccess_Callback, StatsFailure_Callback, null);
+	}
+	
+	private void SaveStatisticsToBrainCloud()
+	{
+		// Build the statistics name/inc value dictionary
+		Dictionary<string, object> stats = new Dictionary<string, object> {
+			{"BirdsShot", m_BirdsShot},
+			{"MiniUFOsShot", m_MiniUFOsShot},
+			{"CarsDestroyed", m_CarsDestroyed},
+			{"BossesKilled", m_BossesKilled},
+			{"TrucksDestroyed", m_TrucksDestroyed}
+		};
+		
+		// Send to the cloud
+		BrainCloudWrapper.GetBC().PlayerStatisticsService.IncrementPlayerStats(
+			stats, StatsSuccess_Callback, StatsFailure_Callback, null);
+
+		m_BirdsShot = 0;
+		m_CarsDestroyed = 0;
+		m_MiniUFOsShot = 0;
+		m_TrucksDestroyed = 0;
+		m_BossesKilled = 0;
+	}
+	
+	private void StatsSuccess_Callback(string responseData, object cbObject)
+	{
+		// Read the json and update our values
+		JsonData jsonData = JsonMapper.ToObject (responseData);
+		JsonData entries = jsonData["data"]["statistics"];
+
+		m_BirdsShotGlobal = long.Parse(entries["BirdsShot"].ToString());
+		m_CarsDestroyedGlobal = long.Parse(entries["CarsDestroyed"].ToString());
+		m_MiniUFOsShotGlobal = long.Parse(entries["MiniUFOsShot"].ToString());
+		m_TrucksDestroyedGlobal = long.Parse(entries["TrucksDestroyed"].ToString());
+		m_BossesKilledGlobal = long.Parse(entries["TrucksDestroyed"].ToString());
+	}
+	
+	private void StatsFailure_Callback(int statusCode, int reasonCode, string statusMessage, object cbObject)
+	{
+		Debug.Log (statusMessage);
+	}
+	////////////////////////////////////////////
+
+
+	// Statictics for achievements
+	long m_BirdsShot;
+	long m_CarsDestroyed;
+	long m_MiniUFOsShot;
+	long m_TrucksDestroyed;
+	long m_BossesKilled;
+
+	long m_BirdsShotGlobal;
+	long m_CarsDestroyedGlobal;
+	long m_MiniUFOsShotGlobal;
+	long m_TrucksDestroyedGlobal;
+	long m_BossesKilledGlobal;
+
+	long m_BirdsShotAchievement = 100;
+	long m_CarsDestroyedAchievement = 20;
+	long m_MiniUFOsShotAchievement = 50;
+	long m_TrucksDestroyedAchievement = 10;
+	long m_BossesKilledAchievement = 5;
+
+
+
 	float m_TimeBeforeReset = 5.0f;
 	float m_Timer;
 
@@ -23,6 +99,7 @@ public class GameEventManager : MonoBehaviour
 
 	public HealthManager m_PlayerHealth;
 	public ScoreManager m_PlayerScore;
+	public AchievementsManager m_AchievementsManager;
 
 	public GameState CurrentState
 	{
@@ -120,18 +197,43 @@ public class GameEventManager : MonoBehaviour
 
 			BaseAI enemy = target.GetComponent<BaseAI>();
 
-			// TODO: achievements !!!
+			List<AchievementType> types = new List<AchievementType>();
+			long oldValue = 0;
+			long newValue = 0;
+
 			if(enemy is Pelican)
 			{
+				oldValue = m_BirdsShot;
+				m_BirdsShot++;
+				newValue = m_BirdsShot;
 
+				types.Add(AchievementType.e_TrueFriend);
 			}
 			else if(enemy is Mini_UFO)
 			{
+				oldValue = m_MiniUFOsShot;
+				m_MiniUFOsShot++;
+				newValue = m_MiniUFOsShot;
 				
+				types.Add(AchievementType.e_LastProtector);
 			}
 			else if(enemy is Boss_UFO)
 			{
 				m_CurrentState = GameState.e_End;
+
+				m_BossesKilled++;
+
+				oldValue = m_BossesKilled;
+				m_BossesKilled++;
+				newValue = m_BossesKilled;
+				
+				types.Add(AchievementType.e_WillSmith);
+				types.Add(AchievementType.e_StillTrying);
+			}
+
+			foreach(AchievementType type in types)
+			{
+				UpdateAchievements(type, oldValue, newValue);
 			}
 		}
 	}
@@ -141,6 +243,11 @@ public class GameEventManager : MonoBehaviour
 		if(!m_GamePaused && (m_CurrentState == GameState.e_GamePart1 || m_CurrentState == GameState.e_GamePart2))
 		{
 			m_PlayerScore.DecreaseScore((uint)score);
+
+			/*if(target.tag == "Car")
+			{
+
+			}*/
 		}
 	}
 
@@ -157,6 +264,67 @@ public class GameEventManager : MonoBehaviour
 	void OnBossEngaged()
 	{
 		m_CurrentState = GameState.e_GamePart2;
+	}
+
+	void UpdateAchievements(AchievementType type, long previousValue, long newValue)
+	{
+		bool achievementUnlocked = false;
+
+		switch(type)
+		{
+		case AchievementType.e_DrunkDriver:
+			if(previousValue + m_CarsDestroyedGlobal< m_CarsDestroyedAchievement
+			   && newValue + m_CarsDestroyedGlobal >= m_CarsDestroyedAchievement)
+			{
+				achievementUnlocked = true;
+			}
+			break;
+
+		case AchievementType.e_FourthOfJuly:
+			if(previousValue + m_TrucksDestroyedGlobal < m_TrucksDestroyedAchievement
+			   && newValue + m_TrucksDestroyedGlobal >= m_TrucksDestroyedAchievement)
+			{
+				achievementUnlocked = true;
+			}
+			break;
+
+		case AchievementType.e_LastProtector:
+			if(previousValue + m_MiniUFOsShotGlobal< m_MiniUFOsShotAchievement
+			   && newValue + m_MiniUFOsShotGlobal >= m_MiniUFOsShotAchievement)
+			{
+				achievementUnlocked = true;
+			}
+			break;
+
+		case AchievementType.e_StillTrying:
+			if(previousValue + m_BossesKilledGlobal < m_BossesKilledAchievement
+			   && newValue + m_BossesKilledGlobal >= m_BossesKilledAchievement)
+			{
+				achievementUnlocked = true;
+			}
+			break;
+
+		case AchievementType.e_TrueFriend:
+			if(previousValue + m_BirdsShotGlobal < m_BirdsShotAchievement
+				&& newValue + m_BirdsShotGlobal >= m_BirdsShotAchievement)
+			{
+				achievementUnlocked = true;
+			}
+			break;
+
+		case AchievementType.e_WillSmith:
+			if(previousValue + m_BossesKilledGlobal < 1
+			   && newValue + m_BossesKilledGlobal >= 1)
+			{
+				achievementUnlocked = true;
+			}
+			break;
+		}
+
+		if(achievementUnlocked)
+		{
+			m_AchievementsManager.ShowAchievement(type);
+		}
 	}
 
 	[ContextMenu("Move One State")]

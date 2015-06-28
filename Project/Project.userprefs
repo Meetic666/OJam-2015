@@ -1,36 +1,41 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Explosion\Explosion.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Textures\Nouveau document texte.txt">
     <Files>
-      <File FileName="Assets\Scripts\AI\Boss_UFO.cs" Line="92" Column="56" />
+      <File FileName="Assets\Scripts\AI\Boss_UFO.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\GameData\BaseHealth.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\AI\Pelican.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\AI\Mini_UFO.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Movement\PlayerMovement.cs" Line="119" Column="3" />
+      <File FileName="Assets\Scripts\Movement\PlayerMovement.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\AI\BaseAI.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\GameData\HealthManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\GameManagement\GameEventManager.cs" Line="134" Column="24" />
+      <File FileName="Assets\Scripts\GameManagement\GameEventManager.cs" Line="237" Column="5" />
       <File FileName="Assets\Scripts\MenuSystem\MenuManager.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\GameData\ScoreManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Camera\CameraController.cs" Line="65" Column="19" />
-      <File FileName="Assets\Scripts\Weapons\PlayerWeapon.cs" Line="14" Column="17" />
-      <File FileName="Assets\Scripts\Projectiles\Bullet.cs" Line="17" Column="55" />
-      <File FileName="Assets\Scripts\Projectiles\Missile.cs" Line="15" Column="3" />
-      <File FileName="Assets\Scripts\Weapons\Weapon.cs" Line="80" Column="42" />
-      <File FileName="Assets\Scripts\Movement\SideCollidersController.cs" Line="40" Column="36" />
-      <File FileName="Assets\Scripts\Buildings\SpawnBuildings.cs" Line="44" Column="16" />
-      <File FileName="Assets\Scripts\Explosion\Explosion.cs" Line="9" Column="5" />
+      <File FileName="Assets\Scripts\Camera\CameraController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Weapons\PlayerWeapon.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Projectiles\Bullet.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Projectiles\Missile.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Weapons\Weapon.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Movement\SideCollidersController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Buildings\SpawnBuildings.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Explosion\Explosion.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\BrainCloud\ConnectScene.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\GameData\AchievementsManager.cs" Line="26" Column="66" />
+      <File FileName="Assets\Resources\Textures\Nouveau document texte.txt" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Assembly-CSharp" expanded="True">
-            <Node name="Scripts" expanded="True">
-              <Node name="Camera" expanded="True" />
-              <Node name="Explosion" expanded="True">
-                <Node name="Explosion.cs" selected="True" />
+            <Node name="Resources" expanded="True">
+              <Node name="Textures" expanded="True">
+                <Node name="Nouveau document texte.txt" selected="True" />
               </Node>
-              <Node name="Projectiles" expanded="True" />
+            </Node>
+            <Node name="Scripts" expanded="True">
+              <Node name="GameData" expanded="True" />
+              <Node name="GameManagement" expanded="True" />
             </Node>
           </Node>
         </State>
