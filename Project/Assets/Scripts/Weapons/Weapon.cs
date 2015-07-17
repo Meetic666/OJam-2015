@@ -32,7 +32,7 @@ public class Weapon : MonoBehaviour
     {
     }
 
-    public void Fire(Vector3 startPos)
+    public void Fire(Vector3 startPos, Vector3 direction)
     {
         if (CanFire())
         {
@@ -43,12 +43,12 @@ public class Weapon : MonoBehaviour
             {
                 for (int i = 0; i < numberFired; i++)
                 {
-                    SpawnProjectile(startPos);
+                    SpawnProjectile(startPos, direction);
                 }
             }
             else
             {
-				SpawnProjectile(startPos);
+				SpawnProjectile(startPos, direction);
 			}
 		}
 
@@ -66,7 +66,7 @@ public class Weapon : MonoBehaviour
 		}
 	}
 
-    void SpawnProjectile(Vector3 startPos)
+    void SpawnProjectile(Vector3 startPos, Vector3 startDirection)
     {
 
         Vector3 offset = Vector3.zero;
@@ -79,6 +79,7 @@ public class Weapon : MonoBehaviour
         GameObject newProjectile = (GameObject) GameObject.Instantiate(m_Projectile, spawnPos, Quaternion.identity);
 		newProjectile.tag = tag;
 		newProjectile.layer = gameObject.layer;
+		newProjectile.transform.forward = startDirection;
     }
 
     public bool CanFire()

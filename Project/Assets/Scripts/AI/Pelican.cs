@@ -20,7 +20,7 @@ public class Pelican : BaseAI , BaseHealth<int>
 	// Use this for initialization
 	void Start () 
 	{
-		AtkDamage = 5;
+		AtkDamage = 1;
 
 		MovementSpeed = m_MovementSpeed;
 		MinDist2Player = 0;

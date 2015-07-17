@@ -332,9 +332,11 @@ public class GameEventManager : MonoBehaviour
 
 	void OnPlayerKilled()
 	{		
-		m_Reloading = true;
+		//m_Reloading = true;
 
-		SaveStatisticsToBrainCloud();
+		//SaveStatisticsToBrainCloud();
+
+		m_Timer = m_TimeBeforeReset;
 	}
 
 	void OnPlayerHit(int damage)

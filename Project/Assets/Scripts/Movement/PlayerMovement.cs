@@ -6,7 +6,7 @@ public class PlayerMovement : MonoBehaviour, BaseHealth<int> {
     Rigidbody m_Body;
     const float GRAVITY = 10f;
     const float SPEED = 4000f;
-    const float CONTROL_ACCELERATION = 2.5f;
+    const float CONTROL_ACCELERATION = 1.5f;
 
 	GameEventManager m_GameEventManager;
 
@@ -17,6 +17,13 @@ public class PlayerMovement : MonoBehaviour, BaseHealth<int> {
 	float m_CollisionTimer;
 
 	ScoreManager m_PlayerScore;
+
+	Vector3 m_TargetPosition;
+
+	public Vector3 m_MaxPosition;
+	public float m_MaxRotation;
+
+	Vector3 m_PreviousMousePosition;
 
 	// Use this for initialization
 	void Start ()
@@ -50,7 +57,7 @@ public class PlayerMovement : MonoBehaviour, BaseHealth<int> {
 		}
 
         //Turn
-        Vector3 turn = Vector3.zero;
+        Vector3 turn = Vector3.zero;	
 
         Vector3 autoTurn = Quaternion.FromToRotation(transform.forward, Vector3.forward).eulerAngles;
         if (autoTurn.x > 180f)
@@ -69,28 +76,29 @@ public class PlayerMovement : MonoBehaviour, BaseHealth<int> {
         //Turn
         if (Vector3.Dot(transform.forward, Vector3.forward) > 0.5f)
         {
-            if (Input.GetKey(KeyCode.A))
+			if (Input.GetKey(KeyCode.A))
             {
                 turn.y -= CONTROL_ACCELERATION;
             }
-            if (Input.GetKey(KeyCode.D))
+			if (Input.GetKey(KeyCode.D))
             {
                 turn.y += CONTROL_ACCELERATION;
             }
-            if (Input.GetKey(KeyCode.W))
+			if (Input.GetKey(KeyCode.W))
             {
                 turn.x -= CONTROL_ACCELERATION;
             }
-            if (Input.GetKey(KeyCode.S))
+			if (Input.GetKey(KeyCode.S))
             {
                 turn.x += CONTROL_ACCELERATION;
             }
         }
+
 		if(!Input.anyKey)
 		{
 			turn += autoTurn * 0.2f * m_CollisionMultiplier;
 		}
-		else if(Input.GetKey (KeyCode.Mouse0) || Input.GetKey (KeyCode.Mouse0))
+		else if(Input.GetKey (KeyCode.Mouse0) || Input.GetKey (KeyCode.Mouse1))
 		{
 			turn += autoTurn * 0.2f * m_CollisionMultiplier;
 		}
